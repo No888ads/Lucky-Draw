@@ -382,14 +382,19 @@ async function showResult() {
     const code = document.getElementById("code").value;
     const docRef = db.collection("users").doc(code);
 
+    // Setup Audio Objects
+    const winSound = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
+    const loseSound = new Audio('https://www.soundjay.com/misc/sounds/fail-trombone-01.mp3');
+
     if(prizeText !== "Consolation Prize") {
-        let winSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
-        winSound.play();
+        // Mainkan bunyi menang dengan paksaan (force play)
+        winSound.play().catch(e => console.log("Audio play failed:", e));
         
         await db.collection("prizes_stock").doc(prizeText).update({ 
             stock: firebase.firestore.FieldValue.increment(-1) 
         });
 
+        // Confetti Effect
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
         var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999, colors: ['#D4AF37', '#ffffff', '#4169E1'] };
@@ -403,8 +408,8 @@ async function showResult() {
         }, 250);
 
     } else {
-        let loseSound = new Audio('https://assets.mixkit.co/active_storage/sfx/131/131-preview.mp3');
-        loseSound.play();
+        // Mainkan bunyi saguhati
+        loseSound.play().catch(e => console.log("Audio play failed:", e));
     }
     
     await docRef.update({ 
