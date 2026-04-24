@@ -3,7 +3,6 @@
 <head>
     <title> Lucky Draw </title>
     <link rel="icon" type="image/png" href="HL_Transparent.png?v=1">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/zarocknz/javascript-winwheel@master/Winwheel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -37,26 +36,10 @@
             width: 100%;
         }
 
-        #home-page { 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;
-        }
-
+        #home-page { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
         .company-logo { width: 180px; height: auto; margin-bottom: 20px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); }
+        .card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); color: #333; text-align: center; width: 350px; }
 
-        .card { 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 30px; border-radius: 20px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-            color: #333; text-align: center; width: 350px; 
-        }
-
-        .captcha-badge {
-            display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px;
-            opacity: 0.7; font-size: 11px; color: #666; line-height: 1.2;
-        }
-        .captcha-badge i { color: #4285F4; font-size: 14px; }
-
-        /* 3-COLUMN WHEEL PAGE */
         #wheel-page { 
             display: none; 
             flex-direction: row; 
@@ -68,7 +51,6 @@
             padding: 40px 20px;
         }
         
-        /* Unified Style for Left & Right Boxes */
         #award-box, #leaderboard {
             width: 320px;
             height: 520px;
@@ -88,18 +70,16 @@
             font-size: 18px; letter-spacing: 1px; font-weight: 800;
         }
 
-        /* AWARD DISPLAY SECTION */
         #award-display { flex: 1; display: flex; align-items: center; justify-content: center; }
         .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; }
         .award-photo img {
-            width: 140px; height: 140px; border-radius: 50%;
+            width: 160px; height: 160px; border-radius: 50%;
             border: 4px solid var(--gold); object-fit: cover;
             margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         .award-info h4 { margin: 5px 0; color: var(--dark-navy); font-size: 18px; }
         .award-info p { margin: 0; color: var(--gold); font-weight: bold; font-size: 14px; text-transform: uppercase; }
 
-        /* CENTER WHEEL SECTION */
         .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
         #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
@@ -108,9 +88,7 @@
         .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; max-width: 250px; }
         #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; padding-right: 10px; }
         .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; white-space: nowrap; }
-        .btn-main:hover { background: var(--gold); color: var(--dark-navy); }
 
-        /* WINNER LIST SECTION */
         #winner-list { flex: 1; overflow-y: auto; margin-top: 5px; font-size: 13px; }
         .winner-item { padding: 8px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
         .winner-prize { color: var(--royal-blue); font-weight: 700; }
@@ -121,11 +99,7 @@
             backdrop-filter: blur(10px); box-sizing: border-box; z-index: 1000; margin-top: auto;
         }
         .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; margin-right: 20px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
-        .footer-copyright { opacity: 0.8; font-size: 14px; } 
-        .social-links { display: flex; gap: 20px; margin-bottom: 5px; justify-content: flex-end; }
-        .social-links a { color: white; font-size: 20px; transition: 0.3s; }
-        .social-links a:hover { color: var(--gold); }
-
+        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -140,18 +114,13 @@
             <input type="text" id="staffName" placeholder="Example: Noel Ethan" style="padding: 12px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 14px; width: 85%; margin-bottom: 20px;">
             <br>
             <button class="btn-main" style="font-size: 16px; padding: 12px 30px;" onclick="generateCode()">LOGIN</button>
-            <div class="captcha-badge">
-                <i class="fas fa-shield-alt"></i>
-                <div class="captcha-text">Protected by <b>reCAPTCHA</b><br><span style="font-size: 10px;">Privacy - Terms</span></div>
-            </div>
         </div>
     </div>
 
     <div id="wheel-page">
         <div id="award-box">
             <h3 class="box-title">🎖️ LONG SERVICE</h3>
-            <div id="award-display">
-                </div>
+            <div id="award-display"></div>
         </div>
 
         <div class="wheel-container-main">
@@ -177,17 +146,10 @@
 
 <footer>
     <div class="footer-left">
-        <img src="H&L transparent.png" alt="LuckyDraw Logo" class="footer-logo-img">
+        <img src="H&L transparent.png" alt="Logo" class="footer-logo-img">
         <div class="footer-copyright">© 2026 H & L Retail Sdn. Bhd.</div>
     </div>
     <div class="footer-right">
-        <div class="social-links">
-            <a href="#"><i class="fab fa-x-twitter"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-            <a href="#"><i class="fas fa-globe"></i></a>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-        </div>
         <div class="footer-made-with" style="opacity: 0.8; font-size: 13px; text-align: right;">Made with ❤️ from H & L</div>
     </div>
 </footer>
@@ -196,50 +158,47 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-// FIREBASE CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
-  authDomain: "lucky-draw-66c24.firebaseapp.com",
-  projectId: "lucky-draw-66c24",
-  storageBucket: "lucky-draw-66c24.firebasestorage.app",
-  messagingSenderId: "74967658228",
-  appId: "1:74967658228:web:759c4e5419362838cff8a1"
+    apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
+    authDomain: "lucky-draw-66c24.firebaseapp.com",
+    projectId: "lucky-draw-66c24",
+    storageBucket: "lucky-draw-66c24.firebasestorage.app",
+    messagingSenderId: "74967658228",
+    appId: "1:74967658228:web:759c4e5419362838cff8a1"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// AUTHORIZED STAFF
-const authorizedStaff = ["NOEL ETHAN", "FOO YEN PING", "LAI YEE SIUNG", "ROSNI ANAK POSENG", "CHONG JEW HIN", "TAN KIM YEAN", "NORHAYATI BINTI SUUT", "SITI AISHAH BINTI KALAHIM", "MAHAMAD RIZUAN BIN MADZHI", "DESY ANAK LUKAN", "CHRISTINA CHENDU ANAK FRANCIS", "SOFHIA PETI ANAK PETER", "SITI NORAISHAH BINTI UTEH", "LOW CHIN TING", "PETER MATIUS ANAK NYOGEM", "ROS ANAK ROBERT BOBIL", "SITI ANAK AMPING", "ARTI BINTI SAIT", "JENNIFER TANI ANAK JOHNNY", "SHERON ANAK EGAT", "PETER ANAK EDWARD AHOW", "KHO BEE IAN", "BIBI ERNNA BINTI MUHAMMAD FIRDAUS", "STEPHANIE NADIA ANAK ALAN", "SHARON ANAK SAMAT", "BASILIO APAU ANAK GREGORY", "SITI RASHIDAH BINTI AHMAD"];
-
-// LONG SERVICE DATA (Sila kemaskini nama/gambar staff anda di sini)
-const longServiceStaff = [
-    { name: "FOO YEN PING", years: "15 YEARS", photo: "boss.jpeg" },
-    { name: "LAI YEE SIUNG", years: "5 YEARS", photo: "staff2.png" },
-    { name: "ROSNI ANAK POSENG", years: "5 YEARS", photo: "staff2.png" },
-    { name: "CHONG JEW HIN", years: "5 YEARS", photo: "staff2.png" },
-    { name: "TAN KIM YEAN", years: "5 YEARS", photo: "staff2.png" },
-    { name: "NORHAYATI BINTI SUUT", years: "5 YEARS", photo: "staff2.png" },
-    { name: "SITI AISHAH BINTI KALAHIM", years: "5 YEARS", photo: "staff2.png" },
-    { name: "MAHAMAD RIZUAN BIN MADZHI", years: "5 YEARS", photo: "staff2.png" },
-    { name: "DESY ANAK LUKAN", years: "5 YEARS", photo: "staff2.png" },
-    { name: "CHRISTINA CHENDU ANAK FRANCIS", years: "5 YEARS", photo: "staff2.png" },
-    { name: "SOFHIA PETI ANAK PETER", years: "5 YEARS", photo: "staff2.png" },
-    { name: "SITI NORAISHAH BINTI UTEH", years: "5 YEARS", photo: "staff2.png" },
-    { name: "LOW CHIN TING", years: "5 YEARS", photo: "staff2.png" },
-    { name: "PETER MATIUS ANAK NYOGEM", years: "5 YEARS", photo: "staff2.png" },
-    { name: "ROS ANAK ROBERT BOBIL", years: "5 YEARS", photo: "staff2.png" },
-    { name: "SITI ANAK AMPING", years: "5 YEARS", photo: "staff2.png" },
-    { name: "ARTI BINTI SAIT", years: "5 YEARS", photo: "staff2.png" },
-    { name: "JENNIFER TANI ANAK JOHNNY", years: "5 YEARS", photo: "staff2.png" },
-    { name: "SHERON ANAK EGAT", years: "5 YEARS", photo: "staff2.png" },
-    { name: "PETER ANAK EDWARD AHOW", years: "5 YEARS", photo: "staff2.png" },
-    { name: "SITI RASHIDAH BINTI AHMAD", years: "5 YEARS", photo: "staff2.png" },
-    { name: "KHO BEE IAN", years: "5 YEARS", photo: "staff2.png" },
-    { name: "BIBI ERNNA BINTI MUHAMMAD FIRDAUS", years: "5 YEARS", photo: "staff2.png" },
-    { name: "STEPHANIE NADIA ANAK ALAN", years: "5 YEARS", photo: "staff2.png" },
-    { name: "SHARON ANAK SAMAT", years: "5 YEARS", photo: "staff2.png" },
-    { name: "BASILIO APAU ANAK GREGORY", years: "5 YEARS", photo: "staff2.png" },
-];
+// DATA STAFF: Noel, sila pastikan nama di sini sama dengan input staff
+const staffDatabase = {
+    "FOO YEN PING": { years: "15 YEARS", photo: "boss.jpeg" },
+    "LAI YEE SIUNG": { years: "5 YEARS", photo: "staff2.png" },
+    "ROSNI ANAK POSENG": { years: "5 YEARS", photo: "staff2.png" },
+    "CHONG JEW HIN": { years: "5 YEARS", photo: "staff2.png" },
+    "TAN KIM YEAN": { years: "5 YEARS", photo: "staff2.png" },
+    "NORHAYATI BINTI SUUT": { years: "5 YEARS", photo: "staff2.png" },
+    "SITI AISHAH BINTI KALAHIM": { years: "5 YEARS", photo: "staff2.png" },
+    "MAHAMAD RIZUAN BIN MADZHI": { years: "5 YEARS", photo: "staff2.png" },
+    "DESY ANAK LUKAN": { years: "5 YEARS", photo: "staff2.png" },
+    "CHRISTINA CHENDU ANAK FRANCIS": { years: "5 YEARS", photo: "staff2.png" },
+    "SOFHIA PETI ANAK PETER": { years: "5 YEARS", photo: "staff2.png" },
+    "SITI NORAISHAH BINTI UTEH": { years: "5 YEARS", photo: "staff2.png" },
+    "LOW CHIN TING": { years: "5 YEARS", photo: "staff2.png" },
+    "PETER MATIUS ANAK NYOGEM": { years: "5 YEARS", photo: "staff2.png" },
+    "ROS ANAK ROBERT BOBIL": { years: "5 YEARS", photo: "staff2.png" },
+    "SITI ANAK AMPING": { years: "5 YEARS", photo: "staff2.png" },
+    "ARTI BINTI SAIT": { years: "5 YEARS", photo: "staff2.png" },
+    "JENNIFER TANI ANAK JOHNNY": { years: "5 YEARS", photo: "staff2.png" },
+    "SHERON ANAK EGAT": { years: "5 YEARS", photo: "staff2.png" },
+    "PETER ANAK EDWARD AHOW": { years: "5 YEARS", photo: "staff2.png" },
+    "SITI RASHIDAH BINTI AHMAD": { years: "5 YEARS", photo: "staff2.png" },
+    "KHO BEE IAN": { years: "5 YEARS", photo: "staff2.png" },
+    "BIBI ERNNA BINTI MUHAMMAD FIRDAUS": { years: "5 YEARS", photo: "staff2.png" },
+    "STEPHANIE NADIA ANAK ALAN": { years: "5 YEARS", photo: "staff2.png" },
+    "SHARON ANAK SAMAT": { years: "5 YEARS", photo: "staff2.png" },
+    "BASILIO APAU ANAK GREGORY": { years: "5 YEARS", photo: "staff2.png" },
+    "NOEL ETHAN": { years: "5 YEARS", photo: "noel.png" } // Contoh Noel
+};
 
 const prizeImages = { 
     "Consolation Prize": "https://cdn-icons-png.flaticon.com/512/1791/1791385.png",
@@ -251,37 +210,48 @@ const prizeImages = {
 let theWheel, availablePrizes = [];
 const winSound = new Audio('win.mp3'), loseSound = new Audio('lose.mp3');
 
-// AUTO-SLIDE AWARDS
-let currentAwardIndex = 0;
-function rotateAwards() {
-    const display = document.getElementById('award-display');
-    const staff = longServiceStaff[currentAwardIndex];
-    display.innerHTML = `
-        <div class="award-item">
-            <div class="award-photo"><img src="${staff.photo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'"></div>
-            <div class="award-info"><h4>${staff.name}</h4><p>${staff.years} SERVICE</p></div>
-        </div>`;
-    currentAwardIndex = (currentAwardIndex + 1) % longServiceStaff.length;
+async function generateCode() {
+    const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
+    
+    // Check if staff exists in our local database
+    if (!staffDatabase[nameInput]) {
+        return Swal.fire("Denied", "Name not found in record.", "error");
+    }
+
+    try {
+        const q = await db.collection("users").where("name", "==", nameInput).get();
+        if (!q.empty) return Swal.fire("Error", "You have already participated!", "error");
+        
+        const success = await loadPrizes();
+        if (!success) return;
+
+        // DISPLAY LOGGED IN STAFF INFO
+        const staff = staffDatabase[nameInput];
+        document.getElementById('award-display').innerHTML = `
+            <div class="award-item">
+                <div class="award-photo">
+                    <img src="${staff.photo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+                </div>
+                <div class="award-info">
+                    <h4>${nameInput}</h4>
+                    <p>${staff.years} SERVICE</p>
+                </div>
+            </div>`;
+
+        const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
+        await db.collection("users").doc(newCode).set({ name: nameInput, used: false, prize: "", timestamp: null });
+        
+        document.getElementById("code").value = newCode;
+        document.getElementById("home-page").style.display = "none";
+        document.getElementById("wheel-page").style.display = "flex";
+        
+        // Unlock sound
+        winSound.play().then(() => { winSound.pause(); winSound.currentTime = 0; }).catch(() => {});
+
+    } catch (e) { Swal.fire("Error", "Database error.", "error"); }
 }
 
-function listenToLeaderboard() {
-    db.collection("users").where("used", "==", true).onSnapshot((snapshot) => {
-        const listDiv = document.getElementById("winner-list");
-        listDiv.innerHTML = "";
-        if (snapshot.empty) { listDiv.innerHTML = '<p style="text-align: center; color: #94a3b8; margin-top: 20px;">Waiting...</p>'; return; }
-        let winners = [];
-        snapshot.forEach((doc) => winners.push(doc.data()));
-        winners.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-        winners.forEach((data) => {
-            if (data.prize && data.prize !== "" && data.prize !== "Consolation Prize") {
-                const item = document.createElement("div");
-                item.className = "winner-item";
-                item.innerHTML = `<strong>${data.name}</strong> <span class="winner-prize">${data.prize}</span>`;
-                listDiv.appendChild(item);
-            }
-        });
-    });
-}
+// ... (Fungsi loadPrizes, listenToLeaderboard, spin, showResult kekal sama seperti sebelum ini) ...
 
 async function loadPrizes() {
     const snapshot = await db.collection("prizes_stock").where("stock", ">", 0).get();
@@ -299,27 +269,25 @@ async function loadPrizes() {
     });
     theWheel.draw();
     listenToLeaderboard();
-    rotateAwards();
-    setInterval(rotateAwards, 5000); // Slide setiap 5 saat
     return true;
 }
 
-async function generateCode() {
-    winSound.play().then(() => { winSound.pause(); winSound.currentTime = 0; }).catch(() => {});
-    const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
-    if (!authorizedStaff.includes(nameInput)) return Swal.fire("Denied", "Name not found.", "error");
-
-    try {
-        const q = await db.collection("users").where("name", "==", nameInput).get();
-        if (!q.empty) return Swal.fire("Error", "Already registered!", "error");
-        const success = await loadPrizes();
-        if (!success) return;
-        const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
-        await db.collection("users").doc(newCode).set({ name: nameInput, used: false, prize: "", timestamp: null });
-        document.getElementById("code").value = newCode;
-        document.getElementById("home-page").style.display = "none";
-        document.getElementById("wheel-page").style.display = "flex";
-    } catch (e) { Swal.fire("Error", "Connection failed.", "error"); }
+function listenToLeaderboard() {
+    db.collection("users").where("used", "==", true).onSnapshot((snapshot) => {
+        const listDiv = document.getElementById("winner-list");
+        listDiv.innerHTML = "";
+        let winners = [];
+        snapshot.forEach((doc) => winners.push(doc.data()));
+        winners.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+        winners.forEach((data) => {
+            if (data.prize && data.prize !== "" && data.prize !== "Consolation Prize") {
+                const item = document.createElement("div");
+                item.className = "winner-item";
+                item.innerHTML = `<strong>${data.name}</strong> <span class="winner-prize">${data.prize}</span>`;
+                listDiv.appendChild(item);
+            }
+        });
+    });
 }
 
 function spin() {
@@ -335,22 +303,18 @@ async function showResult() {
     let prizeText = theWheel.getIndicatedSegment().text;
     const code = document.getElementById("code").value;
     const docRef = db.collection("users").doc(code);
-
     if(prizeText !== "Consolation Prize") {
         winSound.play().catch(() => {});
         await db.collection("prizes_stock").doc(prizeText).update({ stock: firebase.firestore.FieldValue.increment(-1) });
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     } else { loseSound.play().catch(() => {}); }
-    
     await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-
     Swal.fire({
         title: prizeText === "Consolation Prize" ? 'OH NO!' : '🎉 CONGRATS! 🎉',
         html: `<b style="font-size: 20px;">${prizeText === "Consolation Prize" ? "Try again!" : "You won " + prizeText}</b>`,
         imageUrl: prizeImages[prizeText] || 'default.png', imageWidth: 200, imageHeight: 200, confirmButtonColor: '#1a237e'
     }).then(() => {
         document.getElementById("spinBtn").innerText = "FINISHED";
-        document.getElementById("spinBtn").style.background = "#94a3b8";
     });
 }
 </script>
