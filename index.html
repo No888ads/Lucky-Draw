@@ -383,8 +383,8 @@ async function showResult() {
     const docRef = db.collection("users").doc(code);
 
     // Setup Audio Objects
-    const winSound = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
-    const loseSound = new Audio('https://www.soundjay.com/misc/sounds/fail-trombone-01.mp3');
+    const winSound = new Audio('win.m4a');
+    const loseSound = new Audio('lose.m4a');
 
     if(prizeText !== "Consolation Prize") {
         // Mainkan bunyi menang dengan paksaan (force play)
