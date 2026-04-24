@@ -256,7 +256,23 @@ const db = firebase.firestore();
 const authorizedStaff = ["NOEL ETHAN", "FOO YEN PING", "LAI YEE SIUNG", "ROSNI ANAK POSENG", "CHONG JEW HIN", "TAN KIM YEAN", "NORHAYATI BINTI SUUT", "SITI AISHAH BINTI KALAHIM", "MAHAMAD RIZUAN BIN MADZHI", "DESY ANAK LUKAN", "CHRISTINA CHENDU ANAK FRANCIS", "SOFHIA PETI ANAK PETER", "SITI NORAISHAH BINTI UTEH", "LOW CHIN TING", "PETER MATIUS ANAK NYOGEM", "ROS ANAK ROBERT BOBIL", "SITI ANAK AMPING", "ARTI BINTI SAIT", "JENNIFER TANI ANAK JOHNNY", "SHERON ANAK EGAT", "PETER ANAK EDWARD AHOW", "KHO BEE IAN", "BIBI ERNNA BINTI MUHAMMAD FIRDAUS", "STEPHANIE NADIA ANAK ALAN", "SHARON ANAK SAMAT", "BASILIO APAU ANAK GREGORY", "SITI RASHIDAH BINTI AHMAD"];
 
 const prizeImages = { 
-    "TRY AGAIN": "https://cdn-icons-png.flaticon.com/512/1791/1791385.png" 
+    "Saguhati": "https://cdn-icons-png.flaticon.com/512/1791/1791385.png",
+    "Hadiah 1": "images/hadiah1.png",
+    "Hadiah 2": "images/hadiah2.png",
+    "Hadiah 3": "images/hadiah3.png",
+    "Hadiah 4": "images/hadiah4.png",
+    "Hadiah 5": "images/hadiah5.png",
+    "Hadiah 6": "images/hadiah6.png",
+    "Hadiah 7": "images/hadiah7.png",
+    "Hadiah 8": "images/hadiah8.png",
+    "Hadiah 9": "images/hadiah9.png",
+    "Hadiah 10": "images/hadiah10.png",
+    "Hadiah 11": "images/hadiah11.png",
+    "Hadiah 12": "images/hadiah12.png",
+    "Hadiah 13": "images/hadiah13.png",
+    "Hadiah 14": "images/hadiah14.png",
+    "Hadiah 15": "images/hadiah15.png"
+};
 };
 
 let theWheel;
@@ -274,7 +290,7 @@ function listenToLeaderboard() {
         snapshot.forEach((doc) => winners.push(doc.data()));
         winners.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
         winners.forEach((data) => {
-            if (data.prize && data.prize !== "" && data.prize !== "TRY AGAIN") {
+            if (data.prize && data.prize !== "" && data.prize !== "Consolation Prize") {
                 const item = document.createElement("div");
                 item.className = "winner-item";
                 item.innerHTML = `<strong>${data.name}</strong> <span class="winner-prize">${data.prize}</span>`;
@@ -340,7 +356,7 @@ async function showResult() {
     const code = document.getElementById("code").value;
     const docRef = db.collection("users").doc(code);
 
-    if(prizeText !== "TRY AGAIN") {
+    if(prizeText !== "Consolation Prize") {
         await db.collection("prizes_stock").doc(prizeText).update({ stock: firebase.firestore.FieldValue.increment(-1) });
         // Grand Confetti Effect
         var duration = 5 * 1000;
@@ -359,8 +375,8 @@ async function showResult() {
     await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
 
     Swal.fire({
-        title: prizeText === "TRY AGAIN" ? 'OH NO!' : '🎉 CONGRATULATIONS! 🎉',
-        html: `<b style="font-size: 22px; color: #1a237e;">${prizeText === "TRY AGAIN" ? "Better luck next time!" : "You won " + prizeText}</b>`,
+        title: prizeText === "Consolation Prize' : '🎉 CONGRATULATIONS! 🎉',
+        html: `<b style="font-size: 22px; color: #1a237e;">${prizeText === "Consolation Prize" ? "Better luck next time!" : "You won " + prizeText}</b>`,
         imageUrl: prizeImages[prizeText] || 'https://cdn-icons-png.flaticon.com/512/3112/3112733.png',
         imageWidth: 200, imageHeight: 200,
         confirmButtonColor: '#1a237e',
