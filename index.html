@@ -383,8 +383,8 @@ async function showResult() {
     const docRef = db.collection("users").doc(code);
 
     // Setup Audio Objects
-    const winSound = new Audio('win.m4a');
-    const loseSound = new Audio('lose.m4a');
+    const winSound = new Audio('win.mp3');
+    const loseSound = new Audio('lose.mp3');
 
     if(prizeText !== "Consolation Prize") {
         // Mainkan bunyi menang dengan paksaan (force play)
