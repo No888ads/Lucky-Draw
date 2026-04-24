@@ -32,7 +32,7 @@
         #home-page { 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
             width: 100%;
-            padding-bottom: 100px; /* Jarak tambahan untuk footer besar */
+            padding-bottom: 100px;
         }
 
         .company-logo { 
@@ -47,6 +47,21 @@
             color: #333; text-align: center; width: 350px; 
         }
 
+        /* Captcha Badge Style */
+        .captcha-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+            opacity: 0.7;
+            font-size: 11px;
+            color: #666;
+            line-height: 1.2;
+        }
+        .captcha-badge i { color: #4285F4; font-size: 14px; }
+        .captcha-links { font-size: 10px; }
+
         #wheel-page { 
             display: none; 
             flex-direction: row; 
@@ -54,7 +69,7 @@
             justify-content: space-between; 
             width: 95%; 
             max-width: 1200px;
-            padding: 20px 20px 120px 20px; /* Jarak bawah ditambah */
+            padding: 20px 20px 120px 20px;
         }
         
         .wheel-container-main {
@@ -153,14 +168,13 @@
             font-size: 14px; width: 85%; margin-bottom: 20px;
         }
 
-        /* Footer Styles - Diperbesarkan */
         footer {
             position: fixed;
             bottom: 0;
             width: 100%;
             background: rgba(10, 15, 60, 0.95);
             color: white;
-            padding: 20px; /* Padding lebih besar */
+            padding: 20px 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -168,20 +182,17 @@
             box-sizing: border-box;
             z-index: 1000;
         }
-        .footer-left { display: flex; flex-direction: column; gap: 1px; }
-        .footer-logo-text { margin-bottom: 2px; display: flex; align-items: center; }
+        .footer-left { display: flex; flex-direction: column; gap: 5px; }
         
-        /* Saiz logo diperbesarkan */
         .footer-logo-img { 
-    height: 65px; /* Naikkan height (asal 45px) */
-    width: auto; 
-    transform: scale(1.4); /* Besarkan 1.4 kali ganda */
-    transform-origin: left bottom; /* Pastikan dia membesar dari sudut kiri bawah */
-    margin-right: 20px; /* Tambah ruang sedikit supaya tak rapat sangat dengan teks */
-    filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); /* Opsional: tambah glow sikit */
-}
+            height: 65px; 
+            width: auto; 
+            transform: scale(1.4); 
+            transform-origin: left bottom; 
+            margin-right: 20px; 
+            filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); 
+        }
         
-        /* Saiz teks copyright diperbesarkan */
         .footer-copyright { opacity: 0.8; font-size: 16px; font-weight: 500; } 
         
         .footer-right { text-align: right; }
@@ -201,6 +212,14 @@
         <input type="text" id="staffName" placeholder="Example: Noel Ethan">
         <br>
         <button class="btn-main" style="font-size: 16px; padding: 12px 30px;" onclick="generateCode()">LOGIN</button>
+        
+        <div class="captcha-badge">
+            <i class="fas fa-shield-alt"></i>
+            <div class="captcha-text">
+                Protected by <b>reCAPTCHA</b><br>
+                <span class="captcha-links">Privacy - Terms</span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -364,16 +383,13 @@ async function showResult() {
     const docRef = db.collection("users").doc(code);
 
     if(prizeText !== "Consolation Prize") {
-        // 1. Mainkan bunyi menang
         let winSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
         winSound.play();
         
-        // 2. Tolak stok dalam Firebase
         await db.collection("prizes_stock").doc(prizeText).update({ 
             stock: firebase.firestore.FieldValue.increment(-1) 
         });
 
-        // 3. Efek Confetti
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
         var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999, colors: ['#D4AF37', '#ffffff', '#4169E1'] };
@@ -387,19 +403,16 @@ async function showResult() {
         }, 250);
 
     } else {
-        // 1. Mainkan bunyi saguhati/sedih
         let loseSound = new Audio('https://assets.mixkit.co/active_storage/sfx/131/131-preview.mp3');
         loseSound.play();
     }
     
-    // 4. Update status user kepada 'used'
     await docRef.update({ 
         used: true, 
         prize: prizeText, 
         timestamp: firebase.firestore.FieldValue.serverTimestamp() 
     });
 
-    // 5. Papar Popup
     Swal.fire({
         title: prizeText === "Consolation Prize" ? 'OH NO!' : '🎉 CONGRATULATIONS! 🎉',
         html: `<b style="font-size: 22px; color: #1a237e;">${prizeText === "Consolation Prize" ? "Better luck next time!" : "You won " + prizeText}</b>`,
