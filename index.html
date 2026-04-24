@@ -172,7 +172,14 @@
         .footer-logo-text { margin-bottom: 2px; display: flex; align-items: center; }
         
         /* Saiz logo diperbesarkan */
-        .footer-logo-img { height: 45px; width: auto; } 
+        .footer-logo-img { 
+    height: 65px; /* Naikkan height (asal 45px) */
+    width: auto; 
+    transform: scale(1.4); /* Besarkan 1.4 kali ganda */
+    transform-origin: left bottom; /* Pastikan dia membesar dari sudut kiri bawah */
+    margin-right: 20px; /* Tambah ruang sedikit supaya tak rapat sangat dengan teks */
+    filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); /* Opsional: tambah glow sikit */
+}
         
         /* Saiz teks copyright diperbesarkan */
         .footer-copyright { opacity: 0.8; font-size: 16px; font-weight: 500; } 
