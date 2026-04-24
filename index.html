@@ -3,6 +3,7 @@
 <head>
     <title> Lucky Draw </title>
     <link rel="icon" type="image/png" href="HL_Transparent.png?v=1">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/zarocknz/javascript-winwheel@master/Winwheel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -52,8 +53,8 @@
         }
         
         #award-box, #leaderboard {
-            width: 320px;
-            height: 520px;
+            width: 340px;
+            height: 550px;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             border: 2px solid var(--gold);
@@ -71,14 +72,23 @@
         }
 
         #award-display { flex: 1; display: flex; align-items: center; justify-content: center; }
-        .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; }
+        .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; width: 100%; }
         .award-photo img {
-            width: 160px; height: 160px; border-radius: 50%;
+            width: 150px; height: 150px; border-radius: 50%;
             border: 4px solid var(--gold); object-fit: cover;
             margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        .award-info h4 { margin: 5px 0; color: var(--dark-navy); font-size: 18px; }
-        .award-info p { margin: 0; color: var(--gold); font-weight: bold; font-size: 14px; text-transform: uppercase; }
+
+        .staff-details {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 12px;
+            border-left: 4px solid var(--gold);
+            margin-top: 10px;
+        }
+        .staff-details div { font-size: 13px; margin-bottom: 4px; color: #444; }
+        .staff-details b { color: var(--dark-navy); }
 
         .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
@@ -110,8 +120,8 @@
         <img src="H&L transparent.png" alt="Company Logo" class="company-logo">
         <div class="card">
             <h2 style="color: var(--royal-blue); margin: 0 0 10px 0;">🎡 Lucky Draw</h2>
-            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Please enter your full name to login</p>
-            <input type="text" id="staffName" placeholder="Example: Noel Ethan" style="padding: 12px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 14px; width: 85%; margin-bottom: 20px;">
+            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Staff Login</p>
+            <input type="text" id="staffName" placeholder="ENTER FULL NAME" style="padding: 12px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 14px; width: 85%; margin-bottom: 20px; text-transform: uppercase;">
             <br>
             <button class="btn-main" style="font-size: 16px; padding: 12px 30px;" onclick="generateCode()">LOGIN</button>
         </div>
@@ -119,7 +129,7 @@
 
     <div id="wheel-page">
         <div id="award-box">
-            <h3 class="box-title">🎖️ LONG SERVICE</h3>
+            <h3 class="box-title">🎖️ STAFF PROFILE</h3>
             <div id="award-display"></div>
         </div>
 
@@ -169,35 +179,34 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-
 const staffDatabase = {
     "FOO YEN PING": { years: "15 YEARS", photo: "boss.jpeg", outlet: "HQ", position: "HR Manager", dateJoin: "15/05/2011" },
-    "LAI YEE SIUNG": { years: "5 YEARS", photo: "staff2.png" },
-    "ROSNI ANAK POSENG": { years: "5 YEARS", photo: "staff2.png" },
-    "CHONG JEW HIN": { years: "5 YEARS", photo: "staff2.png" },
-    "TAN KIM YEAN": { years: "5 YEARS", photo: "staff2.png" },
-    "NORHAYATI BINTI SUUT": { years: "5 YEARS", photo: "staff2.png" },
-    "SITI AISHAH BINTI KALAHIM": { years: "5 YEARS", photo: "staff2.png" },
-    "MAHAMAD RIZUAN BIN MADZHI": { years: "5 YEARS", photo: "staff2.png" },
-    "DESY ANAK LUKAN": { years: "5 YEARS", photo: "staff2.png" },
-    "CHRISTINA CHENDU ANAK FRANCIS": { years: "5 YEARS", photo: "staff2.png" },
-    "SOFHIA PETI ANAK PETER": { years: "5 YEARS", photo: "staff2.png" },
-    "SITI NORAISHAH BINTI UTEH": { years: "5 YEARS", photo: "staff2.png" },
-    "LOW CHIN TING": { years: "5 YEARS", photo: "staff2.png" },
-    "PETER MATIUS ANAK NYOGEM": { years: "5 YEARS", photo: "staff2.png" },
-    "ROS ANAK ROBERT BOBIL": { years: "5 YEARS", photo: "staff2.png" },
-    "SITI ANAK AMPING": { years: "5 YEARS", photo: "staff2.png" },
-    "ARTI BINTI SAIT": { years: "5 YEARS", photo: "staff2.png" },
-    "JENNIFER TANI ANAK JOHNNY": { years: "5 YEARS", photo: "staff2.png" },
-    "SHERON ANAK EGAT": { years: "5 YEARS", photo: "staff2.png" },
-    "PETER ANAK EDWARD AHOW": { years: "5 YEARS", photo: "staff2.png" },
-    "SITI RASHIDAH BINTI AHMAD": { years: "5 YEARS", photo: "staff2.png" },
-    "KHO BEE IAN": { years: "5 YEARS", photo: "staff2.png" },
-    "BIBI ERNNA BINTI MUHAMMAD FIRDAUS": { years: "5 YEARS", photo: "staff2.png" },
-    "STEPHANIE NADIA ANAK ALAN": { years: "5 YEARS", photo: "staff2.png" },
-    "SHARON ANAK SAMAT": { years: "5 YEARS", photo: "staff2.png" },
-    "BASILIO APAU ANAK GREGORY": { years: "5 YEARS", photo: "staff2.png" },
-    "NOEL ETHAN": { years: "5 YEARS", photo: "noel.png" } // Contoh Noel
+    "LAI YEE SIUNG": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "ROSNI ANAK POSENG": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "CHONG JEW HIN": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "TAN KIM YEAN": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "NORHAYATI BINTI SUUT": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "SITI AISHAH BINTI KALAHIM": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "MAHAMAD RIZUAN BIN MADZHI": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "DESY ANAK LUKAN": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "CHRISTINA CHENDU ANAK FRANCIS": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "SOFHIA PETI ANAK PETER": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "SITI NORAISHAH BINTI UTEH": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "LOW CHIN TING": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "PETER MATIUS ANAK NYOGEM": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "ROS ANAK ROBERT BOBIL": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "SITI ANAK AMPING": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "ARTI BINTI SAIT": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "JENNIFER TANI ANAK JOHNNY": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "SHERON ANAK EGAT": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "PETER ANAK EDWARD AHOW": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "SITI RASHIDAH BINTI AHMAD": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "KHO BEE IAN": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "BIBI ERNNA BINTI MUHAMMAD FIRDAUS": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "STEPHANIE NADIA ANAK ALAN": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "SHARON ANAK SAMAT": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "BASILIO APAU ANAK GREGORY": { years: "5 YEARS", photo: "staff2.png", outlet: "H&L XTRA ", position: "Staff", dateJoin: "N/A" },
+    "NOEL ETHAN": { years: "5 YEARS", photo: "noel.png", outlet: "H&L XTRA ", position: "Payroll Officer", dateJoin: "01/12/2020" }
 };
 
 const prizeImages = { 
@@ -212,29 +221,28 @@ const winSound = new Audio('win.mp3'), loseSound = new Audio('lose.mp3');
 
 async function generateCode() {
     const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
-    
-    // Check if staff exists in our local database
-    if (!staffDatabase[nameInput]) {
-        return Swal.fire("Denied", "Name not found in record.", "error");
-    }
+    if (!staffDatabase[nameInput]) return Swal.fire("Denied", "Name not found.", "error");
 
     try {
         const q = await db.collection("users").where("name", "==", nameInput).get();
-        if (!q.empty) return Swal.fire("Error", "You have already participated!", "error");
+        if (!q.empty) return Swal.fire("Error", "Already registered!", "error");
         
         const success = await loadPrizes();
         if (!success) return;
 
-        // DISPLAY LOGGED IN STAFF INFO
         const staff = staffDatabase[nameInput];
+        // KOD PEMBETULAN: Memasukkan butiran lengkap ke paparan
         document.getElementById('award-display').innerHTML = `
             <div class="award-item">
                 <div class="award-photo">
                     <img src="${staff.photo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
                 </div>
-                <div class="award-info">
-                    <h4>${nameInput}</h4>
-                    <p>${staff.years} SERVICE</p>
+                <h4 style="margin: 5px 0; color: var(--dark-navy);">${nameInput}</h4>
+                <div class="staff-details">
+                    <div><b>Outlet:</b> ${staff.outlet || 'N/A'}</div>
+                    <div><b>Position:</b> ${staff.position || 'N/A'}</div>
+                    <div><b>Date Join:</b> ${staff.dateJoin || 'N/A'}</div>
+                    <div><b>Service Period:</b> ${staff.years}</div>
                 </div>
             </div>`;
 
@@ -244,24 +252,20 @@ async function generateCode() {
         document.getElementById("code").value = newCode;
         document.getElementById("home-page").style.display = "none";
         document.getElementById("wheel-page").style.display = "flex";
-        
-        // Unlock sound
         winSound.play().then(() => { winSound.pause(); winSound.currentTime = 0; }).catch(() => {});
 
-    } catch (e) { Swal.fire("Error", "Database error.", "error"); }
+    } catch (e) { Swal.fire("Error", "Check Connection.", "error"); }
 }
-
-// ... (Fungsi loadPrizes, listenToLeaderboard, spin, showResult kekal sama seperti sebelum ini) ...
 
 async function loadPrizes() {
     const snapshot = await db.collection("prizes_stock").where("stock", ">", 0).get();
     availablePrizes = [];
     snapshot.forEach(doc => availablePrizes.push(doc.id));
-    if (availablePrizes.length === 0) { Swal.fire("Finished", "All prizes won!", "info"); return false; }
-    availablePrizes.sort(() => Math.random() - 0.5);
+    if (availablePrizes.length === 0) return false;
+    
     let segments = availablePrizes.map((p, i) => {
         const colors = ['#1a237e', '#D4AF37', '#283593', '#C5A028', '#3949ab'];
-        return { 'fillStyle': colors[i % colors.length], 'text': p, 'textFillStyle': 'white', 'fontSize': 14 };
+        return { 'fillStyle': colors[i % colors.length], 'text': p, 'textFillStyle': 'white', 'fontSize': 12 };
     });
     theWheel = new Winwheel({
         canvasId: 'wheelCanvas', numSegments: segments.length, segments: segments,
@@ -311,8 +315,8 @@ async function showResult() {
     await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
     Swal.fire({
         title: prizeText === "Consolation Prize" ? 'OH NO!' : '🎉 CONGRATS! 🎉',
-        html: `<b style="font-size: 20px;">${prizeText === "Consolation Prize" ? "Try again!" : "You won " + prizeText}</b>`,
-        imageUrl: prizeImages[prizeText] || 'default.png', imageWidth: 200, imageHeight: 200, confirmButtonColor: '#1a237e'
+        html: `<b style="font-size: 20px;">You won ${prizeText}</b>`,
+        confirmButtonColor: '#1a237e'
     }).then(() => {
         document.getElementById("spinBtn").innerText = "FINISHED";
     });
