@@ -273,7 +273,6 @@ const prizeImages = {
     "Hadiah 14": "images/hadiah14.png",
     "Hadiah 15": "images/hadiah15.png"
 };
-};
 
 let theWheel;
 let availablePrizes = [];
@@ -325,7 +324,7 @@ async function loadPrizes() {
 }
 
 async function generateCode() {
-    const nameInput = document.getElementById("staffName").value.trim();
+    const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
     if (!nameInput) return Swal.fire("Oops!", "Please enter your name.", "warning");
     if (!authorizedStaff.includes(nameInput)) return Swal.fire("Access Denied", "Name not found.", "error");
 
@@ -375,7 +374,7 @@ async function showResult() {
     await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
 
     Swal.fire({
-        title: prizeText === "Consolation Prize' : '🎉 CONGRATULATIONS! 🎉',
+        title: prizeText === "Consolation Prize" ? 'OH NO!' : '🎉 CONGRATULATIONS! 🎉',
         html: `<b style="font-size: 22px; color: #1a237e;">${prizeText === "Consolation Prize" ? "Better luck next time!" : "You won " + prizeText}</b>`,
         imageUrl: prizeImages[prizeText] || 'https://cdn-icons-png.flaticon.com/512/3112/3112733.png',
         imageWidth: 200, imageHeight: 200,
