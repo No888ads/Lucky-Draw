@@ -191,7 +191,7 @@
         <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Please enter your full name to start</p>
         <input type="text" id="staffName" placeholder="Example: Noel Ethan">
         <br>
-        <button class="btn-main" style="font-size: 16px; padding: 12px 30px;" onclick="generateCode()">REGISTER & START</button>
+        <button class="btn-main" style="font-size: 16px; padding: 12px 30px;" onclick="generateCode()">LOGIN</button>
     </div>
 </div>
 
@@ -231,6 +231,7 @@
             <a href="https://x.com/HnLOfficial"><i class="fab fa-x-twitter"></i></a>
             <a href="https://www.youtube.com/@HnLsupermarket"><i class="fab fa-youtube"></i></a>
             <a href="https://www.hlgroup.com.my/"><i class="fas fa-globe"></i></a>
+            <a href="https://t.me/hnlsupermarketkch"><i class="fa fa-telegram"></i></a>
         </div>
         <div class="footer-made-with">Made with ❤️ from H & L</div>
     </div>
@@ -251,7 +252,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const authorizedStaff = ["Staff 1", "Staff 2", "Teck Fooks", "Staff 4", "Staff 5", "Staff 6", "Staff 7", "Staff 8", "Staff 9", "Staff 10", "Staff 11", "Staff 12", "Staff 13", "Staff 14", "Staff 15", "Staff 16", "Staff 17", "Staff 18", "Staff 19", "Staff 20", "Staff 21", "Staff 22", "Staff 23", "Staff 24", "Staff 25", "staff 26"];
+const authorizedStaff = ["FOO YEN PING", "LAI YEE SIUNG", "ROSNI ANAK POSENG", "CHONG JEW HIN", "TAN KIM YEAN", "NORHAYATI BINTI SUUT", "SITI AISHAH BINTI KALAHIM", "MAHAMAD RIZUAN BIN MADZHI", "DESY ANAK LUKAN", "CHRISTINA CHENDU ANAK FRANCIS", "SOFHIA PETI ANAK PETER", "SITI NORAISHAH BINTI UTEH", "LOW CHIN TING", "PETER MATIUS ANAK NYOGEM", "ROS ANAK ROBERT BOBIL", "SITI ANAK AMPING", "ARTI BINTI SAIT", "JENNIFER TANI ANAK JOHNNY", "SHERON ANAK EGAT", "PETER ANAK EDWARD AHOW", "KHO BEE IAN", "BIBI ERNNA BINTI MUHAMMAD FIRDAUS", "STEPHANIE NADIA ANAK ALAN", "SHARON ANAK SAMAT", "BASILIO APAU ANAK GREGORY", "SITI RASHIDAH BINTI AHMAD"];
 
 const prizeImages = { 
     "TRY AGAIN": "https://cdn-icons-png.flaticon.com/512/1791/1791385.png" 
