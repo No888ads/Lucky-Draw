@@ -21,7 +21,6 @@
         body { 
             font-family: 'Segoe UI', Tahoma, sans-serif; 
             margin: 0; 
-            /* Flexbox susunan menegak */
             display: flex;
             flex-direction: column;
             min-height: 100vh; 
@@ -29,7 +28,6 @@
             overflow-x: hidden;
         }
         
-        /* Container utama untuk Home & Wheel */
         #main-content {
             flex: 1;
             display: flex;
@@ -40,17 +38,10 @@
         }
 
         #home-page { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            width: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;
         }
 
-        .company-logo { 
-            width: 180px; height: auto; margin-bottom: 20px; 
-            filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); 
-        }
+        .company-logo { width: 180px; height: auto; margin-bottom: 20px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); }
 
         .card { 
             background: rgba(255, 255, 255, 0.95); 
@@ -60,158 +51,82 @@
         }
 
         .captcha-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 15px;
-            opacity: 0.7;
-            font-size: 11px;
-            color: #666;
-            line-height: 1.2;
+            display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px;
+            opacity: 0.7; font-size: 11px; color: #666; line-height: 1.2;
         }
         .captcha-badge i { color: #4285F4; font-size: 14px; }
-        .captcha-links { font-size: 10px; }
 
+        /* 3-COLUMN WHEEL PAGE */
         #wheel-page { 
             display: none; 
             flex-direction: row; 
             align-items: center; 
             justify-content: space-between; 
-            width: 95%; 
-            max-width: 1200px;
+            width: 98%; 
+            max-width: 1400px;
+            gap: 20px;
             padding: 40px 20px;
         }
         
-        .wheel-container-main {
-            flex: 1;
+        /* Unified Style for Left & Right Boxes */
+        #award-box, #leaderboard {
+            width: 320px;
+            height: 520px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            box-sizing: border-box;
         }
 
-        .wheel-title { 
-            margin-bottom: 25px; color: white; 
-            font-size: 28px; font-weight: 800; 
-            text-shadow: 2px 3px 6px rgba(0,0,0,0.3);
-            letter-spacing: 1px;
+        .box-title {
+            margin: 0 0 15px 0; color: var(--dark-navy); text-align: center;
+            border-bottom: 2px solid var(--gold); padding-bottom: 10px;
+            font-size: 18px; letter-spacing: 1px; font-weight: 800;
         }
 
-        #canvasContainer { 
-            position: relative; 
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px; border-radius: 50%;
-            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        /* AWARD DISPLAY SECTION */
+        #award-display { flex: 1; display: flex; align-items: center; justify-content: center; }
+        .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; }
+        .award-photo img {
+            width: 140px; height: 140px; border-radius: 50%;
+            border: 4px solid var(--gold); object-fit: cover;
+            margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+        .award-info h4 { margin: 5px 0; color: var(--dark-navy); font-size: 18px; }
+        .award-info p { margin: 0; color: var(--gold); font-weight: bold; font-size: 14px; text-transform: uppercase; }
 
-        .pointer {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent;
-            border-top: 35px solid #ff4757; z-index: 10; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
-        }
-
-        .control-box {
-            margin-top: 25px; 
-            background: white; 
-            padding: 5px 10px; 
-            border-radius: 50px; 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            display: inline-flex; 
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: auto;
-            max-width: 250px;
-        }
-
-        #code { 
-            text-align: center; 
-            font-size: 14px; 
-            font-weight: 800; 
-            color: var(--dark-navy); 
-            border: none; 
-            background: transparent; 
-            width: 70px; 
-            outline: none; 
-            border-right: 2px solid #eee; 
-            padding-right: 10px;
-            margin-bottom: 0;
-        }
-
-        .btn-main { 
-            padding: 10px 15px; 
-            border-radius: 30px; 
-            border: none; 
-            background: var(--dark-navy); 
-            color: white; 
-            cursor: pointer; 
-            font-weight: 700; 
-            font-size: 13px; 
-            transition: 0.3s;
-            white-space: nowrap;
-        }
-
+        /* CENTER WHEEL SECTION */
+        .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
+        #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
+        .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid #ff4757; z-index: 10; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3)); }
+        
+        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; max-width: 250px; }
+        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; padding-right: 10px; }
+        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; white-space: nowrap; }
         .btn-main:hover { background: var(--gold); color: var(--dark-navy); }
-        .btn-main:disabled { background: #94a3b8; cursor: not-allowed; }
 
-        #leaderboard {
-            width: 320px; 
-            height: 500px; 
-            background: rgba(255, 255, 255, 0.95); 
-            border-radius: 20px; 
-            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column;
-            margin-left: auto; 
-        }
-
-        #winner-list { flex-grow: 1; overflow-y: auto; margin-top: 15px; font-size: 14px; }
-        .winner-item {
-            padding: 10px; border-bottom: 1px solid #f1f5f9;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        /* WINNER LIST SECTION */
+        #winner-list { flex: 1; overflow-y: auto; margin-top: 5px; font-size: 13px; }
+        .winner-item { padding: 8px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
         .winner-prize { color: var(--royal-blue); font-weight: 700; }
 
-        input[type="text"] { 
-            padding: 12px; border-radius: 10px; border: 2px solid #e2e8f0; 
-            font-size: 14px; width: 85%; margin-bottom: 20px;
-        }
-
-        /* Footer Sticky Bottom */
         footer {
-            width: 100%;
-            background: rgba(10, 15, 60, 0.95);
-            color: white;
-            padding: 15px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            box-sizing: border-box;
-            z-index: 1000;
-            margin-top: auto; /* Paksa footer ke bawah */
+            width: 100%; background: rgba(10, 15, 60, 0.95); color: white; padding: 15px 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(10px); box-sizing: border-box; z-index: 1000; margin-top: auto;
         }
-        
-        .footer-left { display: flex; flex-direction: column; gap: 2px; }
-        
-        .footer-logo-img { 
-            height: 65px; 
-            width: auto; 
-            transform: scale(1.4); 
-            transform-origin: left bottom; 
-            margin-right: 20px; 
-            filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); 
-        }
-        
-        .footer-copyright { opacity: 0.8; font-size: 14px; font-weight: 500; } 
-        
-        .footer-right { text-align: right; }
+        .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; margin-right: 20px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
+        .footer-copyright { opacity: 0.8; font-size: 14px; } 
         .social-links { display: flex; gap: 20px; margin-bottom: 5px; justify-content: flex-end; }
         .social-links a { color: white; font-size: 20px; transition: 0.3s; }
         .social-links a:hover { color: var(--gold); }
-        .footer-made-with { opacity: 0.8; font-size: 13px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -222,28 +137,29 @@
         <div class="card">
             <h2 style="color: var(--royal-blue); margin: 0 0 10px 0;">🎡 Lucky Draw</h2>
             <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Please enter your full name to login</p>
-            <input type="text" id="staffName" placeholder="Example: Noel Ethan">
+            <input type="text" id="staffName" placeholder="Example: Noel Ethan" style="padding: 12px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 14px; width: 85%; margin-bottom: 20px;">
             <br>
             <button class="btn-main" style="font-size: 16px; padding: 12px 30px;" onclick="generateCode()">LOGIN</button>
-            
             <div class="captcha-badge">
                 <i class="fas fa-shield-alt"></i>
-                <div class="captcha-text">
-                    Protected by <b>reCAPTCHA</b><br>
-                    <span class="captcha-links">Privacy - Terms</span>
-                </div>
+                <div class="captcha-text">Protected by <b>reCAPTCHA</b><br><span style="font-size: 10px;">Privacy - Terms</span></div>
             </div>
         </div>
     </div>
 
     <div id="wheel-page">
+        <div id="award-box">
+            <h3 class="box-title">🎖️ LONG SERVICE</h3>
+            <div id="award-display">
+                </div>
+        </div>
+
         <div class="wheel-container-main">
             <h1 class="wheel-title">Good Luck!</h1>
             <div id="canvasContainer">
                 <div class="pointer"></div>
                 <canvas id="wheelCanvas" width="450" height="450"></canvas>
             </div>
-            
             <div class="control-box">
                 <input type="text" id="code" readonly>
                 <button id="spinBtn" class="btn-main" onclick="spin()">SPIN NOW!</button>
@@ -251,7 +167,7 @@
         </div>
 
         <div id="leaderboard">
-            <h3 style="margin: 0; color: var(--dark-navy); text-align: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">🏆 Lucky Winners</h3>
+            <h3 class="box-title">🏆 LUCKY WINNERS</h3>
             <div id="winner-list">
                 <p style="text-align: center; color: #94a3b8; margin-top: 20px;">Waiting for winners...</p>
             </div>
@@ -261,21 +177,18 @@
 
 <footer>
     <div class="footer-left">
-        <div class="footer-logo-text">
-            <img src="H&L transparent.png" alt="LuckyDraw Logo" class="footer-logo-img">
-        </div>
+        <img src="H&L transparent.png" alt="LuckyDraw Logo" class="footer-logo-img">
         <div class="footer-copyright">© 2026 H & L Retail Sdn. Bhd.</div>
     </div>
     <div class="footer-right">
         <div class="social-links">
-            <a href="https://x.com/HnLOfficial"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://www.youtube.com/@HnLsupermarket"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.hlgroup.com.my/"><i class="fas fa-globe"></i></a>
-            <a href="https://t.me/hnlsupermarketkch"><i class="fa-brands fa-telegram"></i></a>
-            <a href="https://www.facebook.com/HnLsupermarket/"><i class="fab fa-facebook"></i></a>
-            <a href="https://www.instagram.com/hnl_retail/"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-x-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fas fa-globe"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
-        <div class="footer-made-with">Made with ❤️ from H & L</div>
+        <div class="footer-made-with" style="opacity: 0.8; font-size: 13px; text-align: right;">Made with ❤️ from H & L</div>
     </div>
 </footer>
 
@@ -283,6 +196,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
+// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
   authDomain: "lucky-draw-66c24.firebaseapp.com",
@@ -294,7 +208,15 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// AUTHORIZED STAFF
 const authorizedStaff = ["NOEL ETHAN", "FOO YEN PING", "LAI YEE SIUNG", "ROSNI ANAK POSENG", "CHONG JEW HIN", "TAN KIM YEAN", "NORHAYATI BINTI SUUT", "SITI AISHAH BINTI KALAHIM", "MAHAMAD RIZUAN BIN MADZHI", "DESY ANAK LUKAN", "CHRISTINA CHENDU ANAK FRANCIS", "SOFHIA PETI ANAK PETER", "SITI NORAISHAH BINTI UTEH", "LOW CHIN TING", "PETER MATIUS ANAK NYOGEM", "ROS ANAK ROBERT BOBIL", "SITI ANAK AMPING", "ARTI BINTI SAIT", "JENNIFER TANI ANAK JOHNNY", "SHERON ANAK EGAT", "PETER ANAK EDWARD AHOW", "KHO BEE IAN", "BIBI ERNNA BINTI MUHAMMAD FIRDAUS", "STEPHANIE NADIA ANAK ALAN", "SHARON ANAK SAMAT", "BASILIO APAU ANAK GREGORY", "SITI RASHIDAH BINTI AHMAD"];
+
+// LONG SERVICE DATA (Sila kemaskini nama/gambar staff anda di sini)
+const longServiceStaff = [
+    { name: "NOEL ETHAN", years: "10 YEARS", photo: "staff1.png" },
+    { name: "FOO YEN PING", years: "15 YEARS", photo: "staff2.png" },
+    { name: "LAI YEE SIUNG", years: "5 YEARS", photo: "staff3.png" }
+];
 
 const prizeImages = { 
     "Consolation Prize": "https://cdn-icons-png.flaticon.com/512/1791/1791385.png",
@@ -303,21 +225,27 @@ const prizeImages = {
     "Prize 11": "11.png", "Prize 12": "12.png", "Prize 13": "13.png", "Prize 14": "14.png", "Prize 15": "15.png"
 };
 
-let theWheel;
-let availablePrizes = [];
+let theWheel, availablePrizes = [];
+const winSound = new Audio('win.mp3'), loseSound = new Audio('lose.mp3');
 
-// Pre-load audio
-const winSound = new Audio('win.mp3');
-const loseSound = new Audio('lose.mp3');
+// AUTO-SLIDE AWARDS
+let currentAwardIndex = 0;
+function rotateAwards() {
+    const display = document.getElementById('award-display');
+    const staff = longServiceStaff[currentAwardIndex];
+    display.innerHTML = `
+        <div class="award-item">
+            <div class="award-photo"><img src="${staff.photo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'"></div>
+            <div class="award-info"><h4>${staff.name}</h4><p>${staff.years} SERVICE</p></div>
+        </div>`;
+    currentAwardIndex = (currentAwardIndex + 1) % longServiceStaff.length;
+}
 
 function listenToLeaderboard() {
     db.collection("users").where("used", "==", true).onSnapshot((snapshot) => {
         const listDiv = document.getElementById("winner-list");
         listDiv.innerHTML = "";
-        if (snapshot.empty) {
-            listDiv.innerHTML = '<p style="text-align: center; color: #94a3b8; margin-top: 20px;">Waiting for winners...</p>';
-            return;
-        }
+        if (snapshot.empty) { listDiv.innerHTML = '<p style="text-align: center; color: #94a3b8; margin-top: 20px;">Waiting...</p>'; return; }
         let winners = [];
         snapshot.forEach((doc) => winners.push(doc.data()));
         winners.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
@@ -336,38 +264,31 @@ async function loadPrizes() {
     const snapshot = await db.collection("prizes_stock").where("stock", ">", 0).get();
     availablePrizes = [];
     snapshot.forEach(doc => availablePrizes.push(doc.id));
-    if (availablePrizes.length === 0) {
-        Swal.fire("Finished", "All prizes have been won!", "info");
-        return false;
-    }
+    if (availablePrizes.length === 0) { Swal.fire("Finished", "All prizes won!", "info"); return false; }
     availablePrizes.sort(() => Math.random() - 0.5);
     let segments = availablePrizes.map((p, i) => {
         const colors = ['#1a237e', '#D4AF37', '#283593', '#C5A028', '#3949ab'];
         return { 'fillStyle': colors[i % colors.length], 'text': p, 'textFillStyle': 'white', 'fontSize': 14 };
     });
     theWheel = new Winwheel({
-        canvasId: 'wheelCanvas',
-        numSegments: segments.length,
-        segments: segments,
+        canvasId: 'wheelCanvas', numSegments: segments.length, segments: segments,
         animation: { 'type': 'spinToStop', 'duration': 10, 'spins': 15, 'callbackFinished': showResult }
     });
     theWheel.draw();
     listenToLeaderboard();
+    rotateAwards();
+    setInterval(rotateAwards, 5000); // Slide setiap 5 saat
     return true;
 }
 
 async function generateCode() {
-    // Unlock Audio Context
     winSound.play().then(() => { winSound.pause(); winSound.currentTime = 0; }).catch(() => {});
-    loseSound.play().then(() => { loseSound.pause(); loseSound.currentTime = 0; }).catch(() => {});
-
     const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
-    if (!nameInput) return Swal.fire("Oops!", "Please enter your name.", "warning");
-    if (!authorizedStaff.includes(nameInput)) return Swal.fire("Access Denied", "Name not found.", "error");
+    if (!authorizedStaff.includes(nameInput)) return Swal.fire("Denied", "Name not found.", "error");
 
     try {
         const q = await db.collection("users").where("name", "==", nameInput).get();
-        if (!q.empty) return Swal.fire("Sorry", "You are already registered!", "error");
+        if (!q.empty) return Swal.fire("Error", "Already registered!", "error");
         const success = await loadPrizes();
         if (!success) return;
         const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
@@ -375,7 +296,7 @@ async function generateCode() {
         document.getElementById("code").value = newCode;
         document.getElementById("home-page").style.display = "none";
         document.getElementById("wheel-page").style.display = "flex";
-    } catch (e) { Swal.fire("Error", "Check your connection.", "error"); }
+    } catch (e) { Swal.fire("Error", "Connection failed.", "error"); }
 }
 
 function spin() {
@@ -393,41 +314,17 @@ async function showResult() {
     const docRef = db.collection("users").doc(code);
 
     if(prizeText !== "Consolation Prize") {
-        winSound.play().catch(e => console.log("Win audio failed", e));
-        
-        await db.collection("prizes_stock").doc(prizeText).update({ 
-            stock: firebase.firestore.FieldValue.increment(-1) 
-        });
-
-        var duration = 5 * 1000;
-        var animationEnd = Date.now() + duration;
-        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999, colors: ['#D4AF37', '#ffffff', '#4169E1'] };
-        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-        var interval = setInterval(function() {
-            var timeLeft = animationEnd - Date.now();
-            if (timeLeft <= 0) return clearInterval(interval);
-            var particleCount = 50 * (timeLeft / duration);
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-        }, 250);
-
-    } else {
-        loseSound.play().catch(e => console.log("Lose audio failed", e));
-    }
+        winSound.play().catch(() => {});
+        await db.collection("prizes_stock").doc(prizeText).update({ stock: firebase.firestore.FieldValue.increment(-1) });
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+    } else { loseSound.play().catch(() => {}); }
     
-    await docRef.update({ 
-        used: true, 
-        prize: prizeText, 
-        timestamp: firebase.firestore.FieldValue.serverTimestamp() 
-    });
+    await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
 
     Swal.fire({
-        title: prizeText === "Consolation Prize" ? 'OH NO!' : '🎉 CONGRATULATIONS! 🎉',
-        html: `<b style="font-size: 22px; color: #1a237e;">${prizeText === "Consolation Prize" ? "Better luck next time!" : "You won " + prizeText}</b>`,
-        imageUrl: prizeImages[prizeText] || 'https://cdn-icons-png.flaticon.com/512/3112/3112733.png',
-        imageWidth: 200, imageHeight: 200,
-        confirmButtonColor: '#1a237e',
-        confirmButtonText: 'Thank You!'
+        title: prizeText === "Consolation Prize" ? 'OH NO!' : '🎉 CONGRATS! 🎉',
+        html: `<b style="font-size: 20px;">${prizeText === "Consolation Prize" ? "Try again!" : "You won " + prizeText}</b>`,
+        imageUrl: prizeImages[prizeText] || 'default.png', imageWidth: 200, imageHeight: 200, confirmButtonColor: '#1a237e'
     }).then(() => {
         document.getElementById("spinBtn").innerText = "FINISHED";
         document.getElementById("spinBtn").style.background = "#94a3b8";
