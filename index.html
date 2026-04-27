@@ -353,9 +353,9 @@ async function generateCode() {
         const staff = staffDatabase[nameInput];
         
         // Dynamic Medal Logic
-        let medalImg = "10 years.jpeg"; 
-        if (staff.years.includes("25")) medalImg = "25 years.jpeg";
-        else if (staff.years.includes("15")) medalImg = "15 years.jpeg";
+        let medalImg = "10 years.png"; 
+        if (staff.years.includes("25")) medalImg = "25 years.png";
+        else if (staff.years.includes("15")) medalImg = "15 years.png";
 
         document.getElementById('award-display').innerHTML = `
             <div class="award-item">
