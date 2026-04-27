@@ -56,38 +56,46 @@
             padding: 40px 20px;
         }
         
-        /* SHINING BORDER ANIMATION - CAHAYA BELAKANG PROFILE */
+        /* --- KESAN CAHAYA BERGERAK DI BELAKANG BOX (FIXED) --- */
         #award-box {
             position: relative;
             width: 340px;
             height: 550px;
-            background: rgba(255, 255, 255, 0.95);
+            background: #fff; /* Jadikan solid supaya ::after boleh tutup */
             border-radius: 20px;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4); /* Glow Belakang */
             padding: 20px;
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
-            overflow: hidden;
+            z-index: 1;
+            /* Kita buang overflow:hidden supaya cahaya boleh "keluar" sikit di tepi */
         }
 
+        /* Cahaya Berpusing */
         #award-box::before {
             content: '';
             position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: conic-gradient(transparent, var(--gold), transparent 30%);
+            top: -10%; left: -10%;
+            width: 120%; height: 120%;
+            background: conic-gradient(
+                transparent, 
+                var(--gold), 
+                var(--gold), 
+                transparent 30%
+            );
             animation: rotateShine 4s linear infinite;
-            z-index: 1;
+            z-index: -2;
+            border-radius: 30px;
         }
 
+        /* Layer putih untuk tutup bahagian tengah cahaya (border effect) */
         #award-box::after {
             content: '';
             position: absolute;
-            inset: 4px;
+            inset: 5px; /* Ketebalan cahaya border */
             background: white;
-            border-radius: 16px;
-            z-index: 2;
+            border-radius: 15px;
+            z-index: -1;
         }
 
         @keyframes rotateShine {
@@ -225,8 +233,7 @@
 
     <div id="wheel-page">
         <div id="award-box">
-            <h3 class="box-title">LONG SERVICE AWARD RECIPIENT 2026</h3>
-            <h3 class="box-title">STAFF PROFILE</h3>
+            <h3 class="box-title">LONG SERVICE 2026</h3>
             <div id="award-display"></div>
         </div>
 
@@ -268,7 +275,7 @@
 </footer>
 
 <script>
-// CONFIG
+// FIREBASE CONFIG
 const firebaseConfig = {
     apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
     authDomain: "lucky-draw-66c24.firebaseapp.com",
@@ -340,13 +347,15 @@ function applySmartCrop(img) {
 async function generateCode() {
     const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
     if (!staffDatabase[nameInput]) return Swal.fire("Denied", "Name not found.", "error");
+
     try {
         Swal.showLoading();
         const q = await db.collection("users").where("name", "==", nameInput).get();
         if (!q.empty) { Swal.close(); return Swal.fire("Error", "Already registered!", "error"); }
+        
         const success = await loadPrizes();
         if (!success) { Swal.close(); return Swal.fire("Error", "Prize stock empty.", "error"); }
-        
+
         const staff = staffDatabase[nameInput];
         let medalImg = "10 years.png"; 
         if (staff.years.includes("25")) medalImg = "25 years.png";
@@ -369,14 +378,23 @@ async function generateCode() {
                     <div><b>Service Period:</b> ${staff.years}</div>
                 </div>
             </div>`;
+
         applySmartCrop(document.getElementById('staffImg'));
+
         const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
-        await db.collection("users").doc(newCode).set({ name: nameInput, used: false, prize: "", timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+        await db.collection("users").doc(newCode).set({ 
+            name: nameInput, used: false, prize: "", 
+            timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+        });
+        
         document.getElementById("code").value = newCode;
         document.getElementById("home-page").style.display = "none";
         document.getElementById("wheel-page").style.display = "flex";
         Swal.close();
-    } catch (e) { Swal.fire("Error", "Check Connection.", "error"); }
+    } catch (e) { 
+        console.error(e);
+        Swal.fire("Error", "Check Connection.", "error"); 
+    }
 }
 
 async function loadPrizes() {
@@ -405,6 +423,7 @@ function listenToLeaderboard() {
         listDiv.innerHTML = "";
         let winners = [];
         snapshot.forEach((doc) => winners.push(doc.data()));
+        
         winners.sort((a, b) => {
             const getRank = (p) => {
                 if (p === "Consolation Prize") return 999;
@@ -413,6 +432,7 @@ function listenToLeaderboard() {
             };
             return getRank(a.prize) - getRank(b.prize);
         });
+
         winners.forEach((data) => {
             if (data.prize) {
                 const item = document.createElement("div");
@@ -440,15 +460,25 @@ async function showResult() {
     const code = document.getElementById("code").value;
     const docRef = db.collection("users").doc(code);
     const prizeImgUrl = prizeImages[prizeText] || "";
+
     if(prizeText !== "Consolation Prize") {
         new Audio('win.mp3').play().catch(() => {});
         await db.collection("prizes_stock").doc(prizeText).update({ stock: firebase.firestore.FieldValue.increment(-1) });
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    } else { new Audio('lose.mp3').play().catch(() => {}); }
+    } else { 
+        new Audio('lose.mp3').play().catch(() => {}); 
+    }
+
     await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+
     Swal.fire({
         title: prizeText === "Consolation Prize" ? 'TRY AGAIN!' : '🎉 CONGRATS! 🎉',
-        html: `<div style="text-align: center;"><img src="${prizeImgUrl}" style="width: 250px; height: 250px; object-fit: contain; margin-bottom: 15px;"><br><b style="font-size: 20px;">You won ${prizeText}</b></div>`,
+        html: `
+            <div style="text-align: center;">
+                <img src="${prizeImgUrl}" style="width: 250px; height: 250px; object-fit: contain; margin-bottom: 15px;">
+                <br>
+                <b style="font-size: 20px;">You won ${prizeText}</b>
+            </div>`,
         confirmButtonColor: '#1a237e'
     }).then(() => {
         document.getElementById("spinBtn").innerText = "FINISHED";
