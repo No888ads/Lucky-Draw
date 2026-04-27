@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/gh/zarocknz/javascript-winwheel@master/Winwheel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smartcrop/2.0.5/smartcrop.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
@@ -73,15 +74,23 @@
 
         #award-display { flex: 1; display: flex; align-items: center; justify-content: center; }
         .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; width: 100%; }
-        .award-photo img {
+        
+        /* CSS KEMASKINI UNTUK AUTO CROP */
+        .award-photo {
             width: 150px; 
             height: 150px; 
             border-radius: 50%;
             border: 4px solid var(--gold); 
-            object-fit: contain;
-            object-position: center top;
-            margin-bottom: 15px; 
+            margin: 0 auto 15px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .award-photo img {
+            position: absolute;
+            max-width: none;
         }
 
         .staff-details {
@@ -135,7 +144,7 @@
     <div id="wheel-page">
         <div id="award-box">
             <h3 class="box-title">🎖️ STAFF PROFILE</h3>
-            <h3 calss="box-title">Long Service</h3>
+            <h3 class="box-title">Long Service</h3>
             <div id="award-display"></div>
         </div>
 
@@ -215,15 +224,23 @@ const staffDatabase = {
     "NOEL ETHAN": { years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ ", position: "Sukat Office", dateJoin: "01/12/1957" }
 };
 
-const prizeImages = { 
-    "Consolation Prize": "https://cdn-icons-png.flaticon.com/512/1791/1791385.png",
-    "Prize 1": "1.png", "Prize 2": "2.png", "Prize 3": "3.png", "Prize 4": "4.png", "Prize 5": "5.png",
-    "Prize 6": "6.png", "Prize 7": "7.png", "Prize 8": "8.png", "Prize 9": "9.png", "Prize 10": "10.png",
-    "Prize 11": "11.png", "Prize 12": "12.png", "Prize 13": "13.png", "Prize 14": "14.png", "Prize 15": "15.png"
-};
-
 let theWheel, availablePrizes = [];
 const winSound = new Audio('win.mp3'), loseSound = new Audio('lose.mp3');
+
+// FUNGSI BARU: AUTO FACE CROP
+function applySmartCrop(img) {
+    img.onload = function() {
+        smartcrop.crop(img, { width: 150, height: 150 }).then(function(result) {
+            const crop = result.topCrop;
+            const scale = 150 / crop.width;
+            img.style.width = (img.naturalWidth * scale) + 'px';
+            img.style.height = (img.naturalHeight * scale) + 'px';
+            img.style.left = (-crop.x * scale) + 'px';
+            img.style.top = (-crop.y * scale) + 'px';
+        });
+    };
+    if (img.complete) img.onload();
+}
 
 async function generateCode() {
     const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
@@ -237,11 +254,12 @@ async function generateCode() {
         if (!success) return;
 
         const staff = staffDatabase[nameInput];
-        // KOD PEMBETULAN: Memasukkan butiran lengkap ke paparan
+        
+        // Paparan Profil Staff dengan ID untuk SmartCrop
         document.getElementById('award-display').innerHTML = `
             <div class="award-item">
                 <div class="award-photo">
-                    <img src="${staff.photo}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+                    <img src="${staff.photo}" id="staffImg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
                 </div>
                 <h4 style="margin: 5px 0; color: var(--dark-navy);">${nameInput}</h4>
                 <div class="staff-details">
@@ -251,6 +269,9 @@ async function generateCode() {
                     <div><b>Service Period:</b> ${staff.years}</div>
                 </div>
             </div>`;
+
+        // Panggil fungsi auto-crop selepas elemen dicipta
+        applySmartCrop(document.getElementById('staffImg'));
 
         const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
         await db.collection("users").doc(newCode).set({ name: nameInput, used: false, prize: "", timestamp: null });
