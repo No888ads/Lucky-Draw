@@ -56,14 +56,14 @@
             padding: 40px 20px;
         }
         
-        /* --- SHINING BORDER & BACKGROUND GLOW --- */
+        /* SHINING BORDER ANIMATION - CAHAYA BELAKANG PROFILE */
         #award-box {
             position: relative;
             width: 340px;
             height: 550px;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); /* Kesan Glow Belakang */
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4); /* Glow Belakang */
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -103,7 +103,7 @@
             font-size: 18px; letter-spacing: 1px; font-weight: 800;
         }
 
-        /* --- SHIMMER NAME EFFECT --- */
+        /* SHIMMER NAME EFFECT */
         .shimmer-name {
             margin: 10px 0 5px;
             font-weight: 800;
@@ -267,7 +267,7 @@
 </footer>
 
 <script>
-// FIREBASE
+// CONFIG
 const firebaseConfig = {
     apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
     authDomain: "lucky-draw-66c24.firebaseapp.com",
@@ -290,7 +290,7 @@ const staffDatabase = {
     "SITI AISHAH BINTI KALAHIM": { years: "15 YEARS", photo: "Siti aishah binti kalahim.jpeg", outlet: "Samariang", position: "Store Executive", dateJoin: "01/07/2010" },
     "MAHAMAD RIZUAN BIN MADZHI": { years: "10 YEARS", photo: "staff2.png", outlet: "Kuching Sentral ", position: "Sales Assistant 1", dateJoin: "12/01/2015" },
     "DESY ANAK LUKAN": { years: "10 YEARS", photo: "Desy anak lukan.jpeg", outlet: "Samariang ", position: "Sales Assistant 1", dateJoin: "13/01/2015" },
-    "CHRISTINA CHENDU ANAK FRANCIS": { years: "10 YEARS", photo: "Christina chendu.jpeg", outlet: "10th Mile ", position: "Receiving Clerk", dateJoin: "06/04/2015" },
+    "CHRISTINA CHENDU ANAK FRANCIS": { years: "10 YEARS", photo: "staff2.png", outlet: "10th Mile ", position: "Receiving Clerk", dateJoin: "06/04/2015" },
     "SOFHIA PETI ANAK PETER": { years: "10 YEARS", photo: "sofhia peti.jpeg", outlet: "Serian ", position: "Category Supervisor", dateJoin: "06/04/2015" },
     "SITI NORAISHAH BINTI UTEH": { years: "10 YEARS", photo: "siti noraishah.jpeg", outlet: "Serian ", position: "Receiving Clerk", dateJoin: "21/04/2015" },
     "LOW CHIN TING": { years: "10 YEARS", photo: "Low Chin Ting.png", outlet: "HQ ", position: "Ast. Merchandising Manager", dateJoin: "18/05/2015" },
@@ -339,15 +339,13 @@ function applySmartCrop(img) {
 async function generateCode() {
     const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
     if (!staffDatabase[nameInput]) return Swal.fire("Denied", "Name not found.", "error");
-
     try {
         Swal.showLoading();
         const q = await db.collection("users").where("name", "==", nameInput).get();
         if (!q.empty) { Swal.close(); return Swal.fire("Error", "Already registered!", "error"); }
-        
         const success = await loadPrizes();
         if (!success) { Swal.close(); return Swal.fire("Error", "Prize stock empty.", "error"); }
-
+        
         const staff = staffDatabase[nameInput];
         let medalImg = "10 years.png"; 
         if (staff.years.includes("25")) medalImg = "25 years.png";
@@ -370,23 +368,14 @@ async function generateCode() {
                     <div><b>Service Period:</b> ${staff.years}</div>
                 </div>
             </div>`;
-
         applySmartCrop(document.getElementById('staffImg'));
-
         const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
-        await db.collection("users").doc(newCode).set({ 
-            name: nameInput, used: false, prize: "", 
-            timestamp: firebase.firestore.FieldValue.serverTimestamp() 
-        });
-        
+        await db.collection("users").doc(newCode).set({ name: nameInput, used: false, prize: "", timestamp: firebase.firestore.FieldValue.serverTimestamp() });
         document.getElementById("code").value = newCode;
         document.getElementById("home-page").style.display = "none";
         document.getElementById("wheel-page").style.display = "flex";
         Swal.close();
-    } catch (e) { 
-        console.error(e);
-        Swal.fire("Error", "Check Connection.", "error"); 
-    }
+    } catch (e) { Swal.fire("Error", "Check Connection.", "error"); }
 }
 
 async function loadPrizes() {
@@ -415,7 +404,6 @@ function listenToLeaderboard() {
         listDiv.innerHTML = "";
         let winners = [];
         snapshot.forEach((doc) => winners.push(doc.data()));
-        
         winners.sort((a, b) => {
             const getRank = (p) => {
                 if (p === "Consolation Prize") return 999;
@@ -424,7 +412,6 @@ function listenToLeaderboard() {
             };
             return getRank(a.prize) - getRank(b.prize);
         });
-
         winners.forEach((data) => {
             if (data.prize) {
                 const item = document.createElement("div");
@@ -452,25 +439,15 @@ async function showResult() {
     const code = document.getElementById("code").value;
     const docRef = db.collection("users").doc(code);
     const prizeImgUrl = prizeImages[prizeText] || "";
-
     if(prizeText !== "Consolation Prize") {
         new Audio('win.mp3').play().catch(() => {});
         await db.collection("prizes_stock").doc(prizeText).update({ stock: firebase.firestore.FieldValue.increment(-1) });
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    } else { 
-        new Audio('lose.mp3').play().catch(() => {}); 
-    }
-
+    } else { new Audio('lose.mp3').play().catch(() => {}); }
     await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-
     Swal.fire({
         title: prizeText === "Consolation Prize" ? 'TRY AGAIN!' : '🎉 CONGRATS! 🎉',
-        html: `
-            <div style="text-align: center;">
-                <img src="${prizeImgUrl}" style="width: 250px; height: 250px; object-fit: contain; margin-bottom: 15px;">
-                <br>
-                <b style="font-size: 20px;">You won ${prizeText}</b>
-            </div>`,
+        html: `<div style="text-align: center;"><img src="${prizeImgUrl}" style="width: 250px; height: 250px; object-fit: contain; margin-bottom: 15px;"><br><b style="font-size: 20px;">You won ${prizeText}</b></div>`,
         confirmButtonColor: '#1a237e'
     }).then(() => {
         document.getElementById("spinBtn").innerText = "FINISHED";
