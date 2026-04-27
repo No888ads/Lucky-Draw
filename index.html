@@ -56,17 +56,57 @@
             padding: 40px 20px;
         }
         
-        #award-box, #leaderboard {
+        /* SHINING BORDER ANIMATION UNTUK STAFF PROFILE */
+        #award-box {
+            position: relative;
             width: 340px;
             height: 550px;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            border: 2px solid var(--gold);
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             padding: 20px;
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
+            overflow: hidden; /* Potong shining supaya tak keluar kotak */
+        }
+
+        /* Lapisan Cahaya Bergerak */
+        #award-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent, 
+                var(--gold), 
+                transparent 30%
+            );
+            animation: rotateShine 4s linear infinite;
+            z-index: 1;
+        }
+
+        /* Penutup Dalam Kotak */
+        #award-box::after {
+            content: '';
+            position: absolute;
+            inset: 4px; /* Ketebalan border bersinar */
+            background: white;
+            border-radius: 16px;
+            z-index: 2;
+        }
+
+        @keyframes rotateShine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Pastikan kandungan profil duduk di atas cahaya */
+        #award-box > * {
+            position: relative;
+            z-index: 5;
         }
 
         .box-title {
@@ -135,16 +175,31 @@
         .staff-details div { font-size: 13px; margin-bottom: 4px; color: #444; }
         .staff-details b { color: var(--dark-navy); }
 
+        /* ... Bahagian Wheel & Leaderboard Style ... */
         .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
         #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
         .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid #ff4757; z-index: 10; }
-        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; max-width: 250px; }
+        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; gap: 8px; width: auto; max-width: 250px; }
         #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; padding-right: 10px; }
         .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; white-space: nowrap; }
 
+        #leaderboard {
+            width: 340px;
+            height: 550px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
         #winner-list { flex: 1; overflow-y: auto; margin-top: 5px; font-size: 13px; }
         .winner-item { padding: 8px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+        .winner-prize { color: var(--royal-blue); font-weight: 700; }
         
         footer { width: 100%; background: rgba(10, 15, 60, 0.95); color: white; padding: 15px 60px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); box-sizing: border-box; z-index: 1000; margin-top: auto; }
         .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; margin-right: 20px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
@@ -253,6 +308,8 @@ const prizeImages = {
     "Prize 11": "11.png", "Prize 12": "12.png", "Prize 13": "13.png", "Prize 14": "14.png", "Prize 15": "15.png"
 };
 
+let theWheel, availablePrizes = [];
+
 function applySmartCrop(img) {
     const targetSize = 132;
     img.onload = function() {
@@ -273,25 +330,20 @@ function applySmartCrop(img) {
 async function generateCode() {
     const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
     if (!staffDatabase[nameInput]) return Swal.fire("Denied", "Name not found.", "error");
-
     try {
         Swal.showLoading();
         const q = await db.collection("users").where("name", "==", nameInput).get();
         if (!q.empty) { Swal.close(); return Swal.fire("Error", "Already registered!", "error"); }
-        
         const success = await loadPrizes();
         if (!success) { Swal.close(); return Swal.fire("Error", "Prize stock empty.", "error"); }
-
+        
         const staff = staffDatabase[nameInput];
-        
-        // LOGIK PILIH GAMBAR MEDAL BERDASARKAN TAHUN
-        let medalImg = "10 years.jpeg"; // Default 10 years
-        if (staff.years.includes("25")) {
-            medalImg = "25 years.jpeg";
-        } else if (staff.years.includes("15")) {
-            medalImg = "15 years.jpeg";
-        }
-        
+
+        // LOGIK MEDAL DINAMIK
+        let medalImg = "10 years.jpeg"; 
+        if (staff.years.includes("25")) { medalImg = "25 years.jpeg"; }
+        else if (staff.years.includes("15")) { medalImg = "15 years.jpeg"; }
+
         document.getElementById('award-display').innerHTML = `
             <div class="award-item">
                 <div class="award-photo">
@@ -299,9 +351,9 @@ async function generateCode() {
                     <div class="photo-crop-container">
                         <img src="${staff.photo}" class="staff-img" id="staffImg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
                     </div>
-                    <img src="${medalImg}" class="medal-overlay" alt="Medal ${staff.years}">
+                    <img src="${medalImg}" class="medal-overlay" alt="Medal">
                 </div>
-                <h4 style="margin: 10px 0 5px; color: var(--dark-navy); font-weight: 800; text-transform: uppercase;">${nameInput}</h4>
+                <h4 style="margin: 5px 0; color: var(--dark-navy); font-weight: 800; text-transform: uppercase;">${nameInput}</h4>
                 <div class="staff-details">
                     <div><b>Outlet:</b> ${staff.outlet || 'N/A'}</div>
                     <div><b>Position:</b> ${staff.position || 'N/A'}</div>
@@ -309,12 +361,10 @@ async function generateCode() {
                     <div><b>Service Period:</b> ${staff.years}</div>
                 </div>
             </div>`;
-
         applySmartCrop(document.getElementById('staffImg'));
-
+        
         const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
         await db.collection("users").doc(newCode).set({ name: nameInput, used: false, prize: "", timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-        
         document.getElementById("code").value = newCode;
         document.getElementById("home-page").style.display = "none";
         document.getElementById("wheel-page").style.display = "flex";
