@@ -56,7 +56,7 @@
             padding: 40px 20px;
         }
         
-        /* SHINING BORDER ANIMATION */
+        /* SHINING BORDER ANIMATION FOR PROFILE BOX */
         #award-box {
             position: relative;
             width: 340px;
@@ -103,11 +103,30 @@
             font-size: 18px; letter-spacing: 1px; font-weight: 800;
         }
 
+        /* CAHAYA BERGERAK PADA NAMA */
+        .shimmer-name {
+            margin: 10px 0 5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 18px;
+            color: var(--dark-navy);
+            background: linear-gradient(to right, var(--dark-navy) 20%, var(--gold) 40%, var(--gold) 60%, var(--dark-navy) 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shineName 3s linear infinite;
+        }
+
+        @keyframes shineName {
+            to { background-position: 200% center; }
+        }
+
         #award-display { flex: 1; display: flex; align-items: center; justify-content: center; }
         .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; width: 100%; }
         
         .award-photo {
-            width: 200px; height: 220px; 
+            width: 220px; height: 220px; 
             margin: 5px auto 10px;
             position: relative;
             display: flex; align-items: center; justify-content: center;
@@ -160,10 +179,10 @@
         .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
         #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
         .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid #ff4757; z-index: 10; }
-        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; gap: 8px; }
-        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; }
-        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; }
-        
+        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; gap: 8px; width: auto; max-width: 250px; }
+        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; padding-right: 10px; }
+        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; white-space: nowrap; }
+
         #leaderboard {
             width: 340px; height: 550px;
             background: rgba(255, 255, 255, 0.95);
@@ -178,8 +197,9 @@
             width: 100%; background: rgba(10, 15, 60, 0.95); color: white; 
             padding: 15px 60px; display: flex; justify-content: space-between; 
             align-items: center; backdrop-filter: blur(10px); box-sizing: border-box; 
+            margin-top: auto;
         }
-        .footer-logo-img { height: 65px; width: auto; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
+        .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; margin-right: 20px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
         
         .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
         .social-icons { display: flex; gap: 15px; }
@@ -246,6 +266,7 @@
 </footer>
 
 <script>
+// FIREBASE CONFIG
 const firebaseConfig = {
     apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
     authDomain: "lucky-draw-66c24.firebaseapp.com",
@@ -268,7 +289,7 @@ const staffDatabase = {
     "SITI AISHAH BINTI KALAHIM": { years: "15 YEARS", photo: "Siti aishah binti kalahim.jpeg", outlet: "Samariang", position: "Store Executive", dateJoin: "01/07/2010" },
     "MAHAMAD RIZUAN BIN MADZHI": { years: "10 YEARS", photo: "staff2.png", outlet: "Kuching Sentral ", position: "Sales Assistant 1", dateJoin: "12/01/2015" },
     "DESY ANAK LUKAN": { years: "10 YEARS", photo: "Desy anak lukan.jpeg", outlet: "Samariang ", position: "Sales Assistant 1", dateJoin: "13/01/2015" },
-    "CHRISTINA CHENDU ANAK FRANCIS": { years: "10 YEARS", photo: "staff2.png", outlet: "10th Mile ", position: "Receiving Clerk", dateJoin: "06/04/2015" },
+    "CHRISTINA CHENDU ANAK FRANCIS": { years: "10 YEARS", photo: "Christina chendu.jpeg", outlet: "10th Mile ", position: "Receiving Clerk", dateJoin: "06/04/2015" },
     "SOFHIA PETI ANAK PETER": { years: "10 YEARS", photo: "sofhia peti.jpeg", outlet: "Serian ", position: "Category Supervisor", dateJoin: "06/04/2015" },
     "SITI NORAISHAH BINTI UTEH": { years: "10 YEARS", photo: "siti noraishah.jpeg", outlet: "Serian ", position: "Receiving Clerk", dateJoin: "21/04/2015" },
     "LOW CHIN TING": { years: "10 YEARS", photo: "Low Chin Ting.png", outlet: "HQ ", position: "Ast. Merchandising Manager", dateJoin: "18/05/2015" },
@@ -290,7 +311,7 @@ const staffDatabase = {
 
 const prizeImages = { 
     "Consolation Prize": "https://cdn-icons-png.flaticon.com/512/1791/1791385.png",
-    "Prize 1": "1.1png", "Prize 2": "2.2.png", "Prize 3.3": "3.png", "Prize 4": "4.png", "Prize 5": "5.png",
+    "Prize 1": "1.1.png", "Prize 2": "2.2.png", "Prize 3": "3.3.png", "Prize 4": "4.png", "Prize 5": "5.png",
     "Prize 6": "6.png", "Prize 7": "7.png", "Prize 8": "8.png", "Prize 9": "9.png", "Prize 10": "10.png",
     "Prize 11": "11.png", "Prize 12": "12.png", "Prize 13": "13.png", "Prize 14": "14.png", "Prize 15": "15.png"
 };
@@ -328,21 +349,21 @@ async function generateCode() {
 
         const staff = staffDatabase[nameInput];
         
-        // Logik Medal Dinamik
-        let medalImg = "10 years.png"; 
-        if (staff.years.includes("25")) medalImg = "25 years.png";
-        else if (staff.years.includes("15")) medalImg = "15 years.png";
+        // Dynamic Medal Logic
+        let medalImg = "10 years.jpeg"; 
+        if (staff.years.includes("25")) medalImg = "25 years.jpeg";
+        else if (staff.years.includes("15")) medalImg = "15 years.jpeg";
 
         document.getElementById('award-display').innerHTML = `
             <div class="award-item">
                 <div class="award-photo">
                     <img src="bingkai2.png" class="wreath-overlay">
                     <div class="photo-crop-container">
-                        <img src="${staff.photo}" class="staff-img" id="staffImg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
+                        <img src="${staff.photo}" class="staff-img" id="staffImg">
                     </div>
                     <img src="${medalImg}" class="medal-overlay" alt="Medal">
                 </div>
-                <h4 style="margin: 10px 0 5px; color: var(--dark-navy); font-weight: 800;">${nameInput}</h4>
+                <h4 class="shimmer-name">${nameInput}</h4>
                 <div class="staff-details">
                     <div><b>Outlet:</b> ${staff.outlet || 'N/A'}</div>
                     <div><b>Position:</b> ${staff.position || 'N/A'}</div>
@@ -363,7 +384,10 @@ async function generateCode() {
         document.getElementById("home-page").style.display = "none";
         document.getElementById("wheel-page").style.display = "flex";
         Swal.close();
-    } catch (e) { Swal.fire("Error", "Check Connection.", "error"); }
+    } catch (e) { 
+        console.error(e);
+        Swal.fire("Error", "Check Connection.", "error"); 
+    }
 }
 
 async function loadPrizes() {
@@ -394,10 +418,10 @@ function listenToLeaderboard() {
         snapshot.forEach((doc) => winners.push(doc.data()));
         
         winners.sort((a, b) => {
-            const getRank = (prize) => {
-                if (prize === "Consolation Prize") return 999;
-                const match = prize.match(/\d+/);
-                return match ? parseInt(match[0]) : 998;
+            const getRank = (p) => {
+                if (p === "Consolation Prize") return 999;
+                const m = p.match(/\d+/);
+                return m ? parseInt(m[0]) : 998;
             };
             return getRank(a.prize) - getRank(b.prize);
         });
@@ -444,7 +468,7 @@ async function showResult() {
         title: prizeText === "Consolation Prize" ? 'TRY AGAIN!' : '🎉 CONGRATS! 🎉',
         html: `
             <div style="text-align: center;">
-                <img src="${prizeImgUrl}" style="width: 330px; height: 330px; object-fit: contain; margin-bottom: 15px;">
+                <img src="${prizeImgUrl}" style="width: 250px; height: 250px; object-fit: contain; margin-bottom: 15px;">
                 <br>
                 <b style="font-size: 20px;">You won ${prizeText}</b>
             </div>`,
