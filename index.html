@@ -15,18 +15,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <style>
-        .company-logo { 
-    width: 120px; /* Kecilkan dari 180px ke 120px */
-    height: auto; 
-    margin-bottom: 15px; 
-    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); 
-    transition: transform 0.3s ease;
-}
-
-/* Tambahan: Logo akan membesar sedikit bila mouse lalu (hover) */
-.company-logo:hover {
-    transform: scale(1.05);
-}
         :root {
             --royal-blue: #4169E1;
             --dark-navy: #1a237e;
@@ -53,34 +41,9 @@
             width: 100%;
         }
 
-        /* --- LOGIN CARD BEAUTIFIED --- */
-        .card { 
-            background: rgba(255, 255, 255, 0.15); 
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 40px 30px; 
-            border-radius: 25px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
-            color: white; 
-            text-align: center; 
-            width: 380px; 
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        #staffName {
-            padding: 15px; border-radius: 12px; border: none;
-            background: white; font-size: 16px; width: 85%;
-            margin-bottom: 25px; text-align: center; font-weight: 600;
-            color: var(--dark-navy); outline: none;
-        }
-
-        .btn-login {
-            padding: 15px 40px; border-radius: 50px; border: none;
-            background: linear-gradient(45deg, var(--dark-navy), var(--royal-blue));
-            color: white; cursor: pointer; font-weight: 800; font-size: 16px;
-            text-transform: uppercase; transition: 0.4s; width: 90%;
-        }
-        .btn-login:hover { background: var(--gold); color: var(--dark-navy); transform: scale(1.05); }
+        #home-page { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
+        .company-logo { width: 180px; height: auto; margin-bottom: 20px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); }
+        .card { background: rgba(255, 255, 255, 0.95); padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4); color: #333; text-align: center; width: 350px; }
 
         #wheel-page { 
             display: none; 
@@ -93,40 +56,54 @@
             padding: 40px 20px;
         }
         
-        /* --- PROFILE BOX --- */
+        /* SHINING BORDER ANIMATION - CAHAYA BELAKANG PROFILE */
         #award-box {
             position: relative;
             width: 340px;
             height: 550px;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4); /* Glow Belakang */
             padding: 20px;
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        #award-box::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(transparent, var(--gold), transparent 30%);
+            animation: rotateShine 4s linear infinite;
             z-index: 1;
         }
 
-        /* --- CAHAYA BELAKANG GAMBAR BULAT --- */
-        .profile-glow-ring {
+        #award-box::after {
+            content: '';
             position: absolute;
-            top: 145px; /* Adjust tepat di belakang gambar Noel */
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 240px;
-            height: 240px;
-            border-radius: 50%;
-            background: conic-gradient(transparent, var(--gold), transparent 40%);
-            animation: rotateShine 4s linear infinite;
-            z-index: 0; /* Di belakang kandungan */
+            inset: 4px;
+            background: white;
+            border-radius: 16px;
+            z-index: 2;
         }
 
         @keyframes rotateShine {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
+        #award-box > * { position: relative; z-index: 5; }
+
+        .box-title {
+            margin: 0 0 15px 0; color: var(--dark-navy); text-align: center;
+            border-bottom: 2px solid var(--gold); padding-bottom: 10px;
+            font-size: 18px; letter-spacing: 1px; font-weight: 800;
+        }
+
+        /* SHIMMER NAME EFFECT */
         .shimmer-name {
             margin: 10px 0 5px;
             font-weight: 800;
@@ -140,16 +117,13 @@
             -webkit-text-fill-color: transparent;
             animation: shineName 3s linear infinite;
         }
-        @keyframes shineName { to { background-position: 200% center; } }
 
-        .box-title {
-            margin: 0 0 15px 0; color: var(--dark-navy); text-align: center;
-            border-bottom: 2px solid var(--gold); padding-bottom: 10px;
-            font-size: 18px; letter-spacing: 1px; font-weight: 800;
+        @keyframes shineName {
+            to { background-position: 200% center; }
         }
 
-        #award-display { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
-        .award-item { text-align: center; width: 100%; position: relative; z-index: 5; }
+        #award-display { flex: 1; display: flex; align-items: center; justify-content: center; }
+        .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; width: 100%; }
         
         .award-photo {
             width: 220px; height: 220px; 
@@ -171,7 +145,7 @@
             border-radius: 50%;
             overflow: hidden;
             position: relative;
-            z-index: 2;
+            z-index: 1;
             background: #fff;
             margin-top: -6px; 
         }
@@ -179,7 +153,8 @@
         .award-photo img.staff-img {
             position: absolute !important;
             max-width: none !important;
-            width: auto !important; height: auto !important;
+            width: auto !important;
+            height: auto !important;
             display: block;
             top: 0; left: 0;
         }
@@ -192,7 +167,6 @@
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
         }
 
-        /* --- DETAILS BOX --- */
         .staff-details {
             text-align: left; background: #f8f9fa;
             padding: 12px; border-radius: 12px;
@@ -202,11 +176,12 @@
         .staff-details div { font-size: 13px; margin-bottom: 4px; color: #444; }
 
         .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; }
+        .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
+        #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
         .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid #ff4757; z-index: 10; }
-        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; width: 70px; outline: none; }
-        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; }
+        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; gap: 8px; width: auto; max-width: 250px; }
+        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; padding-right: 10px; }
+        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; white-space: nowrap; }
 
         #leaderboard {
             width: 340px; height: 550px;
@@ -224,7 +199,7 @@
             align-items: center; backdrop-filter: blur(10px); box-sizing: border-box; 
             margin-top: auto;
         }
-        .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
+        .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; margin-right: 20px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
         
         .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
         .social-icons { display: flex; gap: 15px; margin-bottom: 5px; }
@@ -240,22 +215,23 @@
     <div id="home-page">
         <img src="H&L transparent.png" alt="Company Logo" class="company-logo">
         <div class="card">
-            <h2 style="margin: 0;">🎡 Lucky Draw</h2>
-            <p style="font-size: 14px; margin-bottom: 20px;">Staff Portal Access</p>
-            <input type="text" id="staffName" placeholder="ENTER STAFF ID" maxlength="6">
+            <h2 style="color: var(--royal-blue); margin: 0 0 10px 0;">🎡 Lucky Draw</h2>
+            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Staff Login</p>
+            <input type="text" id="staffName" placeholder="ENTER STAFF ID" maxlength="6" style: 12px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 14px; width: 85%; margin-bottom: 20px; text-transform: uppercase;">
             <br>
-            <button class="btn-login" onclick="generateCode()">LOGIN</button>
+            <button class="btn-main" style="font-size: 16px; padding: 12px 30px;" onclick="generateCode()">LOGIN</button>
         </div>
     </div>
 
     <div id="wheel-page">
         <div id="award-box">
             <h3 class="box-title">LONG SERVICE AWARD RECIPIENT 2026</h3>
+            <h3 class="box-title">STAFF PROFILE</h3>
             <div id="award-display"></div>
         </div>
 
         <div class="wheel-container-main">
-            <h1 style="color: white; margin-bottom: 20px;">Good Luck!</h1>
+            <h1 class="wheel-title">Good Luck!</h1>
             <div id="canvasContainer">
                 <div class="pointer"></div>
                 <canvas id="wheelCanvas" width="450" height="450"></canvas>
@@ -268,7 +244,9 @@
 
         <div id="leaderboard">
             <h3 class="box-title">🏆 LUCKY WINNERS</h3>
-            <div id="winner-list"></div>
+            <div id="winner-list">
+                <p style="text-align: center; color: #94a3b8; margin-top: 20px;">Waiting for winners...</p>
+            </div>
         </div>
     </div>
 </div>
@@ -290,6 +268,7 @@
 </footer>
 
 <script>
+// CONFIG
 const firebaseConfig = {
     apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
     authDomain: "lucky-draw-66c24.firebaseapp.com",
@@ -299,37 +278,100 @@ const firebaseConfig = {
     appId: "1:74967658228:web:759c4e5419362838cff8a1"
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const db = firebase.firestore();
 
 const staffDatabase = {
     "100002": {name: "FOO YEN PING", years: "25 YEARS", photo: "Foo Yen Ping.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "01/06/2000" },
-    "210913": {name: "NOEL ETHAN", years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ", position: "Sukat Office", dateJoin: "01/12/1957" },
-    "206960": {name: "BASILIO APAU ANAK GREGORY", years: "10 YEARS", photo: "BASILIO APAU ANAK GREGORY.jpg", outlet: "10th Mile", position: "Senior Cashier", dateJoin: "21/12/2015" }
+    "202918": {name: "LAI YEE SIUNG", years: "15 YEARS", photo: "Lai Yee Siung.jpg", outlet: "17th Mile", position: "Category Supervisor", dateJoin: "01/01/2010" },
+    "202948": {name: "ROSNI ANAK POSENG", years: "15 YEARS", photo: "Rosni Ank Poseng.jpg", outlet: "MJC", position: "Crew", dateJoin: "08/01/2010" },
+    "100017": {name: "CHONG JEW HIN", years: "15 YEARS", photo: "Chong Jew Hin.png", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "21/04/2010" },
+    "100373": {name: "TAM KIM YEAN",  years: "15 YEARS", photo: "Tan Kim Yean.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "27/04/2010" },
+    "203224": {name: "NORHAYATI BINTI SUUT",  years: "15 YEARS", photo: "Norhayati Binti Suut.jpg", outlet: "Malihah", position: "Ast. Category Supervisor", dateJoin: "01/07/2010" },
+    "101589": {name: "SITI AISHAH BINTI KALAHIM",  years: "15 YEARS", photo: "Siti aishah binti kalahim.jpeg", outlet: "Samariang", position: "Store Executive", dateJoin: "01/07/2010" },
+    "206448": {name: "MAHAMAD RIZUAN BIN MADZHI",  years: "10 YEARS", photo: "mahamad rizuan.jpeg", outlet: "Kuching Sentral ", position: "Sales Assistant 1", dateJoin: "12/01/2015" },
+    "206446": {name: "DESY ANAK LUKAN",  years: "10 YEARS", photo: "Desy anak lukan.jpeg", outlet: "Samariang ", position: "Sales Assistant 1", dateJoin: "13/01/2015" },
+    "206564": {name: "CHRISTINA CHENDU ANAK FRANCIS",  years: "10 YEARS", photo: "Christina chendu.jpeg", outlet: "10th Mile ", position: "Receiving Clerk", dateJoin: "06/04/2015" },
+    "206565": {name: "SOFHIA PETI ANAK PETER",  years: "10 YEARS", photo: "sofhia peti.jpeg", outlet: "Serian ", position: "Category Supervisor", dateJoin: "06/04/2015" },
+    "205128": {name: "SITI NORAISHAH BINTI UTEH",  years: "10 YEARS", photo: "siti noraishah.jpeg", outlet: "Serian ", position: "Receiving Clerk", dateJoin: "21/04/2015" },
+    "206630": {name: "LOW CHIN TING",  years: "10 YEARS", photo: "Low Chin Ting.png", outlet: "HQ ", position: "Ast. Merchandising Manager", dateJoin: "18/05/2015" },
+    "206655": {name: "PETER MATIUS ANAK NYOGEM",  years: "10 YEARS", photo: "peter matius.jpeg", outlet: "Kuching Sentral ", position: "Operation Guard", dateJoin: "08/06/2015" },
+    "205755": {name: "ROS ANAK ROBERT BOBIL",  years: "10 YEARS", photo: "ros.jpeg", outlet: "17th Mile ", position: "Sales Assistant 1", dateJoin: "29/06/2015" },
+    "206701": {name: "SITI ANAK AMPING",  years: "10 YEARS", photo: "Siti anak amping.jpeg", outlet: "MJC ", position: "Crew", dateJoin: "02/07/2015" },
+    "206742": {name: "ARTI BINTI SAIT",  years: "10 YEARS", photo: "Arti binti sait.jpeg", outlet: "Samariang ", position: "Category Supervisor", dateJoin: "03/08/2015" },
+    "206769": {name: "JENNIFER TANI ANAK JOHNNY",  years: "10 YEARS", photo: "Jennifer tani.jpeg", outlet: "3rd Mile ", position: "Crew Leader", dateJoin: "21/08/2015" },
+    "206770": {name: "SHERON ANAK EGAT",  years: "10 YEARS", photo: "sheron anak egat.jpeg", outlet: "Kuching Sentral ", position: "Senior Cashier", dateJoin: "21/08/2015" },
+    "206771": {name: "PETER ANAK EDWARD AHOW",  years: "10 YEARS", photo: "Peter edward.jpeg", outlet: "Serian ", position: "Operation Guard", dateJoin: "24/08/2015" },
+    "206782": {name: "SITI RASHIDAH BINTI AHMAD",  years: "10 YEARS", photo: "SITI RASHIDAH.jpeg", outlet: "Matang Mall ", position: "Senior Sales Assistant", dateJoin: "03/09/2015" },
+    "206790": {name: "KHO BEE IAN",  years: "10 YEARS", photo: "kho bee ian.jpeg", outlet: "KPM ", position: "Operation Executive", dateJoin: "07/09/2015" },
+    "206802": {name: "BIBI ERNNA BINTI MUHAMMAD FIRDAUS",  years: "10 YEARS", photo: "BIBI ERNNA BINTI MUHAMMAD FIRDAUS.png", outlet: "HQ ", position: "Operation Supervisor", dateJoin: "21/09/2015" },
+    "206818": {name: "STEPHANIE NADIA ANAK ALAN",  years: "10 YEARS", photo: "Stephanie nadia.jpeg", outlet: "17th Mile ", position: "Receiving Clerk", dateJoin: "28/09/2015" },
+    "206843": {name: "SHARON ANAK SAMAT",  years: "10 YEARS", photo: "Sharon anak samat.jpeg", outlet: "DC ", position: "Warehouse Assistant", dateJoin: "07/10/2015" },
+    "206960": {name: "BASILIO APAU ANAK GREGORY",  years: "10 YEARS", photo: "BASILIO APAU ANAK GREGORY.jpg", outlet: "10th Mile ", position: "Senior Cashier", dateJoin: "21/12/2015" },
+    "210913": {name: "NOEL ETHAN",  years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ ", position: "Sukat Office", dateJoin: "01/12/1957" },
+      
 };
 
 const prizeImages = { 
-    "Consolation Prize": "cawan.png",
-    "Prize 1": "1.1.png", "Prize 2": "2.2.png", "Prize 3": "3.3.png"
+    "Consolation Prize": "https://cdn-icons-png.flaticon.com/512/1791/1791385.png",
+    "Prize 1": "1.1.png", "Prize 2": "2.2.png", "Prize 3": "3.3.png", "Prize 4": "4.png", "Prize 5": "5.png",
+    "Prize 6": "6.png", "Prize 7": "7.png", "Prize 8": "8.png", "Prize 9": "9.png", "Prize 10": "10.png",
+    "Prize 11": "11.png", "Prize 12": "12.png", "Prize 13": "13.png", "Prize 14": "14.png", "Prize 15": "15.png"
 };
 
 let theWheel, availablePrizes = [];
 
+function applySmartCrop(img) {
+    const targetSize = 132;
+    img.onload = function() {
+        img.style.removeProperty('width');
+        img.style.removeProperty('height');
+        smartcrop.crop(img, { width: targetSize, height: targetSize }).then(function(result) {
+            const crop = result.topCrop;
+            const scale = targetSize / crop.width;
+            img.style.setProperty('width', (img.naturalWidth * scale) + 'px', 'important');
+            img.style.setProperty('height', (img.naturalHeight * scale) + 'px', 'important');
+            img.style.setProperty('left', (-crop.x * scale) + 'px', 'important');
+            img.style.setProperty('top', (-crop.y * scale) + 'px', 'important');
+        });
+    };
+    if (img.complete && img.naturalWidth !== 0) img.onload();
+}
+
 async function generateCode() {
+    // Ambil ID daripada input (sekarang user masukkan ID, bukan nama)
     const idInput = document.getElementById("staffName").value.trim();
-    if (!staffDatabase[idInput]) return Swal.fire("Denied", "Staff ID not found.", "error");
+    
+    // Semak jika ID wujud dalam database
+    if (!staffDatabase[idInput]) {
+        return Swal.fire("Denied", "Staff ID not found.", "error");
+    }
+
+    const staff = staffDatabase[idInput];
+    const staffRealName = staff.name; // Ambil nama sebenar untuk rekod & paparan
 
     try {
         Swal.showLoading();
+        
+        // Semak di Firebase menggunakan Nama Sebenar (supaya satu nama cuma boleh pusing sekali)
+        const q = await db.collection("users").where("name", "==", staffRealName).get();
+        if (!q.empty) {
+            Swal.close();
+            return Swal.fire("Error", "This staff has already participated!", "error");
+        }
+        
         const success = await loadPrizes();
-        if (!success) return;
+        if (!success) {
+            Swal.close();
+            return Swal.fire("Error", "Prize stock empty.", "error");
+        }
 
-        const staff = staffDatabase[idInput];
+        // Tentukan gambar medal
         let medalImg = "10 years.png"; 
         if (staff.years.includes("25")) medalImg = "25 years.png";
         else if (staff.years.includes("15")) medalImg = "15 years.png";
 
-        // --- RENDER DENGAN GLOW RING ---
+        // Paparkan maklumat pada profil (Nama tetap dipaparkan di sini)
         document.getElementById('award-display').innerHTML = `
             <div class="profile-glow-ring"></div>
             <div class="award-item">
@@ -340,8 +382,7 @@ async function generateCode() {
                     </div>
                     <img src="${medalImg}" class="medal-overlay" alt="Medal">
                 </div>
-                <h4 class="shimmer-name">${staff.name}</h4>
-                <div class="staff-details">
+                <h4 class="shimmer-name">${staffRealName}</h4> <div class="staff-details">
                     <div><b>Outlet:</b> ${staff.outlet}</div>
                     <div><b>Position:</b> ${staff.position}</div>
                     <div><b>Date Join:</b> ${staff.dateJoin}</div>
@@ -355,64 +396,98 @@ async function generateCode() {
         
         const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
         document.getElementById("code").value = newCode;
-        await db.collection("users").doc(newCode).set({ name: staff.name, used: false, prize: "", timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-        Swal.close();
-    } catch (e) { Swal.fire("Error", "Check Connection.", "error"); }
-}
 
-function applySmartCrop(img) {
-    const targetSize = 132;
-    img.onload = function() {
-        smartcrop.crop(img, { width: targetSize, height: targetSize }).then(function(result) {
-            const crop = result.topCrop;
-            const scale = targetSize / crop.width;
-            img.style.setProperty('width', (img.naturalWidth * scale) + 'px', 'important');
-            img.style.setProperty('height', (img.naturalHeight * scale) + 'px', 'important');
-            img.style.setProperty('left', (-crop.x * scale) + 'px', 'important');
-            img.style.setProperty('top', (-crop.y * scale) + 'px', 'important');
+        // Simpan rekod ke Firebase menggunakan Nama Sebenar
+        await db.collection("users").doc(newCode).set({ 
+            name: staffRealName, 
+            staffId: idInput,
+            used: false, 
+            prize: "", 
+            timestamp: firebase.firestore.FieldValue.serverTimestamp() 
         });
-    };
-    if (img.complete) img.onload();
+        
+        Swal.close();
+    } catch (e) { 
+        console.error(e);
+        Swal.fire("Error", "Check Connection.", "error"); 
+    }
 }
 
 async function loadPrizes() {
     try {
         const snapshot = await db.collection("prizes_stock").where("stock", ">", 0).get();
-        availablePrizes = snapshot.docs.map(doc => doc.id);
-        if (availablePrizes.length === 0) { Swal.fire("Ralat", "Hadiah habis.", "error"); return false; }
-        
-        let segments = availablePrizes.map((p, i) => ({ 'fillStyle': i % 2 ? '#1a237e' : '#D4AF37', 'text': p, 'textFillStyle': 'white' }));
+        availablePrizes = [];
+        snapshot.forEach(doc => availablePrizes.push(doc.id));
+        if (availablePrizes.length === 0) return false;
+        let segments = availablePrizes.map((p, i) => {
+            const colors = ['#1a237e', '#D4AF37', '#283593', '#C5A028', '#3949ab'];
+            return { 'fillStyle': colors[i % colors.length], 'text': p, 'textFillStyle': 'white', 'fontSize': 12 };
+        });
         theWheel = new Winwheel({
             canvasId: 'wheelCanvas', numSegments: segments.length, segments: segments,
-            animation: { 'type': 'spinToStop', 'duration': 5, 'spins': 8, 'callbackFinished': showResult }
+            animation: { 'type': 'spinToStop', 'duration': 10, 'spins': 15, 'callbackFinished': showResult }
         });
+        theWheel.draw();
         listenToLeaderboard();
         return true;
     } catch(e) { return false; }
 }
 
 function listenToLeaderboard() {
-    db.collection("users").where("used", "==", true).onSnapshot(s => {
-        const list = document.getElementById("winner-list");
-        list.innerHTML = "";
-        s.docs.forEach(d => {
-            const data = d.data();
-            list.innerHTML += `<div class="winner-item"><strong>${data.name}</strong> <span>${data.prize}</span></div>`;
+    db.collection("users").where("used", "==", true).onSnapshot((snapshot) => {
+        const listDiv = document.getElementById("winner-list");
+        listDiv.innerHTML = "";
+        let winners = [];
+        snapshot.forEach((doc) => winners.push(doc.data()));
+        winners.sort((a, b) => {
+            const getRank = (p) => {
+                if (p === "Consolation Prize") return 999;
+                const m = p.match(/\d+/);
+                return m ? parseInt(m[0]) : 998;
+            };
+            return getRank(a.prize) - getRank(b.prize);
+        });
+        winners.forEach((data) => {
+            if (data.prize) {
+                const item = document.createElement("div");
+                item.className = "winner-item";
+                const prizeStyle = data.prize === "Consolation Prize" ? "color: #94a3b8;" : "color: var(--royal-blue); font-weight: 700;";
+                item.innerHTML = `<strong>${data.name}</strong> <span style="${prizeStyle}">${data.prize}</span>`;
+                listDiv.appendChild(item);
+            }
         });
     });
 }
 
 function spin() {
     if (!availablePrizes.length) return;
+    window.chosenPrize = availablePrizes[Math.floor(Math.random() * availablePrizes.length)];
+    let stopIndex = 1;
+    theWheel.segments.forEach((s, i) => { if (s && s.text === window.chosenPrize) stopIndex = i; });
+    theWheel.animation.stopAngle = theWheel.getRandomForSegment(stopIndex);
     document.getElementById("spinBtn").disabled = true;
     theWheel.startAnimation();
 }
 
 async function showResult() {
-    let prize = theWheel.getIndicatedSegment().text;
+    let prizeText = theWheel.getIndicatedSegment().text;
     const code = document.getElementById("code").value;
-    await db.collection("users").doc(code).update({ used: true, prize: prize });
-    Swal.fire("🎉 Tahniah!", `Nama Staff Telah Direkodkan!\nAnda menang: ${prize}`, "success");
+    const docRef = db.collection("users").doc(code);
+    const prizeImgUrl = prizeImages[prizeText] || "";
+    if(prizeText !== "Consolation Prize") {
+        new Audio('win.mp3').play().catch(() => {});
+        await db.collection("prizes_stock").doc(prizeText).update({ stock: firebase.firestore.FieldValue.increment(-1) });
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+    } else { new Audio('lose.mp3').play().catch(() => {}); }
+    await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+    Swal.fire({
+        title: prizeText === "Consolation Prize" ? 'TRY AGAIN!' : '🎉 CONGRATS! 🎉',
+        html: `<div style="text-align: center;"><img src="${prizeImgUrl}" style="width: 250px; height: 250px; object-fit: contain; margin-bottom: 15px;"><br><b style="font-size: 20px;">You won ${prizeText}</b></div>`,
+        confirmButtonColor: '#1a237e'
+    }).then(() => {
+        document.getElementById("spinBtn").innerText = "FINISHED";
+        document.getElementById("spinBtn").style.background = "#94a3b8";
+    });
 }
 </script>
 </body>
