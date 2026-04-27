@@ -217,7 +217,7 @@
         <div class="card">
             <h2 style="color: var(--royal-blue); margin: 0 0 10px 0;">🎡 Lucky Draw</h2>
             <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Staff Login</p>
-            <input type="text" id="staffName" placeholder="ENTER 6-DIGIT ID" maxlength="6" style; 12px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 14px; width: 85%; margin-bottom: 20px; text-transform: uppercase;">
+            <input type="text" id="staffName" placeholder="ENTER 6-DIGIT ID" maxlength="6" style: 12px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 14px; width: 85%; margin-bottom: 20px; text-transform: uppercase;">
             <br>
             <button class="btn-main" style="font-size: 16px; padding: 12px 30px;" onclick="generateCode()">LOGIN</button>
         </div>
@@ -282,36 +282,34 @@ if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const db = firebase.firestore();
 
 const staffDatabase = {
-    "#1": {name: "qweq", years: "25 YEARS", photo: "Foo Yen Ping.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "01/06/2000" },
-    "#2": {name: "dasd", years: "15 YEARS", photo: "Lai Yee Siung.jpg", outlet: "17th Mile", position: "Category Supervisor", dateJoin: "01.01.2010" },
+    "100002": {name: "FOO YEN PING", years: "25 YEARS", photo: "Foo Yen Ping.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "01/06/2000" },
+    "202918": {name: "LAI YEE SIUNG", years: "15 YEARS", photo: "Lai Yee Siung.jpg", outlet: "17th Mile", position: "Category Supervisor", dateJoin: "01.01.2010" },
     "202948": {name: "ROSNI ANAK POSENG", years: "15 YEARS", photo: "Rosni Ank Poseng.jpg", outlet: "MJC", position: "Crew", dateJoin: "08/01/2010" },
-    "#3": { years: "15 YEARS", photo: "Chong Jew Hin.png", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "21/04/2010" },
-    "#4": { years: "15 YEARS", photo: "Tan Kim Yean.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "27/04/2010" },
-    "NORHAYATI BINTI SUUT": { years: "15 YEARS", photo: "Norhayati Binti Suut.jpg", outlet: "Malihah", position: "Ast. Category Supervisor", dateJoin: "01/07/2010" },
-    "SITI AISHAH BINTI KALAHIM": { years: "15 YEARS", photo: "Siti aishah binti kalahim.jpeg", outlet: "Samariang", position: "Store Executive", dateJoin: "01/07/2010" },
-    "MAHAMAD RIZUAN BIN MADZHI": { years: "10 YEARS", photo: "staff2.png", outlet: "Kuching Sentral ", position: "Sales Assistant 1", dateJoin: "12/01/2015" },
-    "DESY ANAK LUKAN": { years: "10 YEARS", photo: "Desy anak lukan.jpeg", outlet: "Samariang ", position: "Sales Assistant 1", dateJoin: "13/01/2015" },
-    "CHRISTINA CHENDU ANAK FRANCIS": { years: "10 YEARS", photo: "staff2.png", outlet: "10th Mile ", position: "Receiving Clerk", dateJoin: "06/04/2015" },
-    "SOFHIA PETI ANAK PETER": { years: "10 YEARS", photo: "sofhia peti.jpeg", outlet: "Serian ", position: "Category Supervisor", dateJoin: "06/04/2015" },
-    "SITI NORAISHAH BINTI UTEH": { years: "10 YEARS", photo: "siti noraishah.jpeg", outlet: "Serian ", position: "Receiving Clerk", dateJoin: "21/04/2015" },
-    "LOW CHIN TING": { years: "10 YEARS", photo: "Low Chin Ting.png", outlet: "HQ ", position: "Ast. Merchandising Manager", dateJoin: "18/05/2015" },
-    "PETER MATIUS ANAK NYOGEM": { years: "10 YEARS", photo: "peter matius.jpeg", outlet: "Kuching Sentral ", position: "Operation Guard", dateJoin: "08/06/2015" },
-    "ROS ANAK ROBERT BOBIL": { years: "10 YEARS", photo: "ros.jpeg", outlet: "17th Mile ", position: "Sales Assistant 1", dateJoin: "29/06/2015" },
-    "SITI ANAK AMPING": { years: "10 YEARS", photo: "Siti anak amping.jpeg", outlet: "MJC ", position: "Crew", dateJoin: "02/07/2015" },
-    "ARTI BINTI SAIT": { years: "10 YEARS", photo: "Arti binti sait.jpeg", outlet: "Samariang ", position: "Category Supervisor", dateJoin: "03/08/2015" },
-    "JENNIFER TANI ANAK JOHNNY": { years: "10 YEARS", photo: "Jennifer tani.jpeg", outlet: "3rd Mile ", position: "Crew Leader", dateJoin: "21/08/2015" },
-    "SHERON ANAK EGAT": { years: "10 YEARS", photo: "sheron anak egat.jpeg", outlet: "Kuching Sentral ", position: "Senior Cashier", dateJoin: "21/08/2015" },
-    "PETER ANAK EDWARD AHOW": { years: "10 YEARS", photo: "staff2.png", outlet: "Serian ", position: "Operation Guard", dateJoin: "24/08/2015" },
-    "SITI RASHIDAH BINTI AHMAD": { years: "10 YEARS", photo: "SITI RASHIDAH.jpeg", outlet: "Matang Mall ", position: "Senior Sales Assistant", dateJoin: "03/09/2015" },
-    "KHO BEE IAN": { years: "10 YEARS", photo: "kho bee ian.jpeg", outlet: "KPM ", position: "Operation Executive", dateJoin: "07/09/2015" },
-    "BIBI ERNNA BINTI MUHAMMAD FIRDAUS": { years: "10 YEARS", photo: "BIBI ERNNA BINTI MUHAMMAD FIRDAUS.png", outlet: "HQ ", position: "Operation Supervisor", dateJoin: "21/09/2015" },
-    "STEPHANIE NADIA ANAK ALAN": { years: "10 YEARS", photo: "Stephanie nadia.jpeg", outlet: "17th Mile ", position: "Receiving Clerk", dateJoin: "28/09/2015" },
-    "SHARON ANAK SAMAT": { years: "10 YEARS", photo: "Sharon anak samat.jpeg", outlet: "DC ", position: "Warehouse Assistant", dateJoin: "07/10/2015" },
-    "BASILIO APAU ANAK GREGORY": { years: "10 YEARS", photo: "BASILIO APAU ANAK GREGORY.jpg", outlet: "10th Mile ", position: "Senior Cashier", dateJoin: "21/12/2015" },
-    "210913": { years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ ", position: "Sukat Office", dateJoin: "01/12/1957" },
-    "BASILIO APAU ANAK GREGORY": { years: "10 YEARS", photo: "BASILIO APAU ANAK GREGORY.jpg", outlet: "10th Mile ", position: "Senior Cashier", dateJoin: "21/12/2015" },
-    
-    
+    "100017": {name: "CHONG JEW HIN", years: "15 YEARS", photo: "Chong Jew Hin.png", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "21/04/2010" },
+    "100373": {name: "TAM KIM YEAN",  years: "15 YEARS", photo: "Tan Kim Yean.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "27/04/2010" },
+    "203224": {name: "NORHAYATI BINTI SUUT",  years: "15 YEARS", photo: "Norhayati Binti Suut.jpg", outlet: "Malihah", position: "Ast. Category Supervisor", dateJoin: "01/07/2010" },
+    "101589": {name: "SITI AISHAH BINTI KALAHIM",  years: "15 YEARS", photo: "Siti aishah binti kalahim.jpeg", outlet: "Samariang", position: "Store Executive", dateJoin: "01/07/2010" },
+    "206448": {name: "MAHAMAD RIZUAN BIN MADZHI",  years: "10 YEARS", photo: "staff2.png", outlet: "Kuching Sentral ", position: "Sales Assistant 1", dateJoin: "12/01/2015" },
+    "206446": {name: "DESY ANAK LUKAN",  years: "10 YEARS", photo: "Desy anak lukan.jpeg", outlet: "Samariang ", position: "Sales Assistant 1", dateJoin: "13/01/2015" },
+    "206564": {name: "CHRISTINA CHENDU ANAK FRANCIS",  years: "10 YEARS", photo: "staff2.png", outlet: "10th Mile ", position: "Receiving Clerk", dateJoin: "06/04/2015" },
+    "206565": {name: "SOFHIA PETI ANAK PETER",  years: "10 YEARS", photo: "sofhia peti.jpeg", outlet: "Serian ", position: "Category Supervisor", dateJoin: "06/04/2015" },
+    "205128": {name: "SITI NORAISHAH BINTI UTEH",  years: "10 YEARS", photo: "siti noraishah.jpeg", outlet: "Serian ", position: "Receiving Clerk", dateJoin: "21/04/2015" },
+    "206630": {name: "LOW CHIN TING",  years: "10 YEARS", photo: "Low Chin Ting.png", outlet: "HQ ", position: "Ast. Merchandising Manager", dateJoin: "18/05/2015" },
+    "206655": {name: "PETER MATIUS ANAK NYOGEM",  years: "10 YEARS", photo: "peter matius.jpeg", outlet: "Kuching Sentral ", position: "Operation Guard", dateJoin: "08/06/2015" },
+    "205755": {name: "ROS ANAK ROBERT BOBIL",  years: "10 YEARS", photo: "ros.jpeg", outlet: "17th Mile ", position: "Sales Assistant 1", dateJoin: "29/06/2015" },
+    "206701": {name: "SITI ANAK AMPING",  years: "10 YEARS", photo: "Siti anak amping.jpeg", outlet: "MJC ", position: "Crew", dateJoin: "02/07/2015" },
+    "206742": {name: "ARTI BINTI SAIT",  years: "10 YEARS", photo: "Arti binti sait.jpeg", outlet: "Samariang ", position: "Category Supervisor", dateJoin: "03/08/2015" },
+    "206769": {name: "JENNIFER TANI ANAK JOHNNY",  years: "10 YEARS", photo: "Jennifer tani.jpeg", outlet: "3rd Mile ", position: "Crew Leader", dateJoin: "21/08/2015" },
+    "206770": {name: "SHERON ANAK EGAT",  years: "10 YEARS", photo: "sheron anak egat.jpeg", outlet: "Kuching Sentral ", position: "Senior Cashier", dateJoin: "21/08/2015" },
+    "206771": {name: "PETER ANAK EDWARD AHOW",  years: "10 YEARS", photo: "staff2.png", outlet: "Serian ", position: "Operation Guard", dateJoin: "24/08/2015" },
+    "206782": {name: "SITI RASHIDAH BINTI AHMAD",  years: "10 YEARS", photo: "SITI RASHIDAH.jpeg", outlet: "Matang Mall ", position: "Senior Sales Assistant", dateJoin: "03/09/2015" },
+    "206790": {name: "KHO BEE IAN",  years: "10 YEARS", photo: "kho bee ian.jpeg", outlet: "KPM ", position: "Operation Executive", dateJoin: "07/09/2015" },
+    "206802": {name: "BIBI ERNNA BINTI MUHAMMAD FIRDAUS",  years: "10 YEARS", photo: "BIBI ERNNA BINTI MUHAMMAD FIRDAUS.png", outlet: "HQ ", position: "Operation Supervisor", dateJoin: "21/09/2015" },
+    "206818": {name: "STEPHANIE NADIA ANAK ALAN",  years: "10 YEARS", photo: "Stephanie nadia.jpeg", outlet: "17th Mile ", position: "Receiving Clerk", dateJoin: "28/09/2015" },
+    "206843": {name: "SHARON ANAK SAMAT",  years: "10 YEARS", photo: "Sharon anak samat.jpeg", outlet: "DC ", position: "Warehouse Assistant", dateJoin: "07/10/2015" },
+    "206960": {name: "BASILIO APAU ANAK GREGORY",  years: "10 YEARS", photo: "BASILIO APAU ANAK GREGORY.jpg", outlet: "10th Mile ", position: "Senior Cashier", dateJoin: "21/12/2015" },
+    "210913": {name: "NOEL ETHAN",  years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ ", position: "Sukat Office", dateJoin: "01/12/1957" },
+      
 };
 
 const prizeImages = { 
