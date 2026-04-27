@@ -107,7 +107,7 @@
         .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; width: 100%; }
         
         .award-photo {
-            width: 220px; height: 220px; 
+            width: 200px; height: 220px; 
             margin: 5px auto 10px;
             position: relative;
             display: flex; align-items: center; justify-content: center;
@@ -329,9 +329,9 @@ async function generateCode() {
         const staff = staffDatabase[nameInput];
         
         // Logik Medal Dinamik
-        let medalImg = "10 years.jpeg"; 
-        if (staff.years.includes("25")) medalImg = "25 years.jpeg";
-        else if (staff.years.includes("15")) medalImg = "15 years.jpeg";
+        let medalImg = "10 years.png"; 
+        if (staff.years.includes("25")) medalImg = "25 years.png";
+        else if (staff.years.includes("15")) medalImg = "15 years.png";
 
         document.getElementById('award-display').innerHTML = `
             <div class="award-item">
@@ -444,7 +444,7 @@ async function showResult() {
         title: prizeText === "Consolation Prize" ? 'TRY AGAIN!' : '🎉 CONGRATS! 🎉',
         html: `
             <div style="text-align: center;">
-                <img src="${prizeImgUrl}" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: 15px;">
+                <img src="${prizeImgUrl}" style="width: 330px; height: 330px; object-fit: contain; margin-bottom: 15px;">
                 <br>
                 <b style="font-size: 20px;">You won ${prizeText}</b>
             </div>`,
