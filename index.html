@@ -217,7 +217,7 @@
         <div class="card">
             <h2 style="color: var(--royal-blue); margin: 0 0 10px 0;">🎡 Lucky Draw</h2>
             <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Staff Login</p>
-            <input type="text" id="staffName" placeholder="ENTER FULL NAME" style="padding: 12px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 14px; width: 85%; margin-bottom: 20px; text-transform: uppercase;">
+            <input type="text" id="staffName" placeholder="ENTER 6-DIGIT ID" maxlength="6" style; 12px; border-radius: 10px; border: 2px solid #e2e8f0; font-size: 14px; width: 85%; margin-bottom: 20px; text-transform: uppercase;">
             <br>
             <button class="btn-main" style="font-size: 16px; padding: 12px 30px;" onclick="generateCode()">LOGIN</button>
         </div>
@@ -282,11 +282,11 @@ if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const db = firebase.firestore();
 
 const staffDatabase = {
-    "FOO YEN PING": { years: "25 YEARS", photo: "Foo Yen Ping.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "01/06/2000" },
-    "LAI YEE SIUNG": { years: "15 YEARS", photo: "Lai Yee Siung.jpg", outlet: "17th Mile", position: "Category Supervisor", dateJoin: "01.01.2010" },
-    "ROSNI ANAK POSENG": { years: "15 YEARS", photo: "Rosni Ank Poseng.jpg", outlet: "MJC", position: "Crew", dateJoin: "08/01/2010" },
-    "CHONG JEW HIN": { years: "15 YEARS", photo: "Chong Jew Hin.png", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "21/04/2010" },
-    "TAN KIM YEAN": { years: "15 YEARS", photo: "Tan Kim Yean.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "27/04/2010" },
+    "#": {name: "BASILIO APAU ANAK GREGORY", years: "25 YEARS", photo: "Foo Yen Ping.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "01/06/2000" },
+    "#": {name: "BASILIO APAU ANAK GREGORY", years: "15 YEARS", photo: "Lai Yee Siung.jpg", outlet: "17th Mile", position: "Category Supervisor", dateJoin: "01.01.2010" },
+    "#": {name: "BASILIO APAU ANAK GREGORY", years: "15 YEARS", photo: "Rosni Ank Poseng.jpg", outlet: "MJC", position: "Crew", dateJoin: "08/01/2010" },
+    "#": { years: "15 YEARS", photo: "Chong Jew Hin.png", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "21/04/2010" },
+    "#": { years: "15 YEARS", photo: "Tan Kim Yean.jpg", outlet: "HQ", position: "Senior Merchandising Officer", dateJoin: "27/04/2010" },
     "NORHAYATI BINTI SUUT": { years: "15 YEARS", photo: "Norhayati Binti Suut.jpg", outlet: "Malihah", position: "Ast. Category Supervisor", dateJoin: "01/07/2010" },
     "SITI AISHAH BINTI KALAHIM": { years: "15 YEARS", photo: "Siti aishah binti kalahim.jpeg", outlet: "Samariang", position: "Store Executive", dateJoin: "01/07/2010" },
     "MAHAMAD RIZUAN BIN MADZHI": { years: "10 YEARS", photo: "staff2.png", outlet: "Kuching Sentral ", position: "Sales Assistant 1", dateJoin: "12/01/2015" },
@@ -309,6 +309,7 @@ const staffDatabase = {
     "SHARON ANAK SAMAT": { years: "10 YEARS", photo: "Sharon anak samat.jpeg", outlet: "DC ", position: "Warehouse Assistant", dateJoin: "07/10/2015" },
     "BASILIO APAU ANAK GREGORY": { years: "10 YEARS", photo: "BASILIO APAU ANAK GREGORY.jpg", outlet: "10th Mile ", position: "Senior Cashier", dateJoin: "21/12/2015" },
     "210913": { years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ ", position: "Sukat Office", dateJoin: "01/12/1957" }
+    "BASILIO APAU ANAK GREGORY": { years: "10 YEARS", photo: "BASILIO APAU ANAK GREGORY.jpg", outlet: "10th Mile ", position: "Senior Cashier", dateJoin: "21/12/2015" },
     
     
 };
@@ -340,21 +341,41 @@ function applySmartCrop(img) {
 }
 
 async function generateCode() {
-    const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
-    if (!staffDatabase[nameInput]) return Swal.fire("Denied", "Name not found.", "error");
+    // Ambil ID daripada input (sekarang user masukkan ID, bukan nama)
+    const idInput = document.getElementById("staffName").value.trim();
+    
+    // Semak jika ID wujud dalam database
+    if (!staffDatabase[idInput]) {
+        return Swal.fire("Denied", "Staff ID not found.", "error");
+    }
+
+    const staff = staffDatabase[idInput];
+    const staffRealName = staff.name; // Ambil nama sebenar untuk rekod & paparan
+
     try {
         Swal.showLoading();
-        const q = await db.collection("users").where("name", "==", nameInput).get();
-        if (!q.empty) { Swal.close(); return Swal.fire("Error", "Already registered!", "error"); }
-        const success = await loadPrizes();
-        if (!success) { Swal.close(); return Swal.fire("Error", "Prize stock empty.", "error"); }
         
-        const staff = staffDatabase[nameInput];
+        // Semak di Firebase menggunakan Nama Sebenar (supaya satu nama cuma boleh pusing sekali)
+        const q = await db.collection("users").where("name", "==", staffRealName).get();
+        if (!q.empty) {
+            Swal.close();
+            return Swal.fire("Error", "This staff has already participated!", "error");
+        }
+        
+        const success = await loadPrizes();
+        if (!success) {
+            Swal.close();
+            return Swal.fire("Error", "Prize stock empty.", "error");
+        }
+
+        // Tentukan gambar medal
         let medalImg = "10 years.png"; 
         if (staff.years.includes("25")) medalImg = "25 years.png";
         else if (staff.years.includes("15")) medalImg = "15 years.png";
 
+        // Paparkan maklumat pada profil (Nama tetap dipaparkan di sini)
         document.getElementById('award-display').innerHTML = `
+            <div class="profile-glow-ring"></div>
             <div class="award-item">
                 <div class="award-photo">
                     <img src="bingkai2.png" class="wreath-overlay">
@@ -363,22 +384,35 @@ async function generateCode() {
                     </div>
                     <img src="${medalImg}" class="medal-overlay" alt="Medal">
                 </div>
-                <h4 class="shimmer-name">${nameInput}</h4>
-                <div class="staff-details">
-                    <div><b>Outlet:</b> ${staff.outlet || 'N/A'}</div>
-                    <div><b>Position:</b> ${staff.position || 'N/A'}</div>
-                    <div><b>Date Join:</b> ${staff.dateJoin || 'N/A'}</div>
+                <h4 class="shimmer-name">${staffRealName}</h4> <div class="staff-details">
+                    <div><b>Outlet:</b> ${staff.outlet}</div>
+                    <div><b>Position:</b> ${staff.position}</div>
+                    <div><b>Date Join:</b> ${staff.dateJoin}</div>
                     <div><b>Service Period:</b> ${staff.years}</div>
                 </div>
             </div>`;
+
         applySmartCrop(document.getElementById('staffImg'));
-        const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
-        await db.collection("users").doc(newCode).set({ name: nameInput, used: false, prize: "", timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-        document.getElementById("code").value = newCode;
         document.getElementById("home-page").style.display = "none";
         document.getElementById("wheel-page").style.display = "flex";
+        
+        const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById("code").value = newCode;
+
+        // Simpan rekod ke Firebase menggunakan Nama Sebenar
+        await db.collection("users").doc(newCode).set({ 
+            name: staffRealName, 
+            staffId: idInput,
+            used: false, 
+            prize: "", 
+            timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+        });
+        
         Swal.close();
-    } catch (e) { Swal.fire("Error", "Check Connection.", "error"); }
+    } catch (e) { 
+        console.error(e);
+        Swal.fire("Error", "Check Connection.", "error"); 
+    }
 }
 
 async function loadPrizes() {
