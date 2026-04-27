@@ -2,7 +2,6 @@
 <html>
 <head>
     <title> Lucky Draw </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="icon" type="image/png" href="HL_Transparent.png?v=1">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
@@ -49,8 +48,10 @@
             height: auto; 
             margin-bottom: 20px; 
             filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); 
+            transition: 0.3s;
         }
 
+        /* --- REKA BENTUK KOTAK LOGIN GLASSMORPHISM --- */
         .card { 
             background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(15px);
@@ -61,63 +62,190 @@
             color: white; 
             text-align: center; 
             width: 380px; 
-            max-width: 85%;
             border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
         }
+        .card:hover { transform: translateY(-5px); }
 
         #staffName {
-            padding: 15px; border-radius: 12px; border: none;
-            background: rgba(255, 255, 255, 0.9); font-size: 16px; 
-            width: 85%; margin-bottom: 25px; text-align: center; 
-            font-weight: 600; color: var(--dark-navy); outline: none;
+            padding: 15px; 
+            border-radius: 12px; 
+            border: none;
+            background: rgba(255, 255, 255, 0.9); 
+            font-size: 16px; 
+            width: 85%;
+            margin-bottom: 25px; 
+            text-align: center; 
+            font-weight: 600;
+            color: var(--dark-navy); 
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
+        #staffName:focus { background: #fff; box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
 
         .btn-login {
-            padding: 15px 40px; border-radius: 50px; border: none;
+            padding: 15px 40px; 
+            border-radius: 50px; 
+            border: none;
             background: linear-gradient(45deg, var(--dark-navy), var(--royal-blue));
-            color: white; cursor: pointer; font-weight: 800; font-size: 16px;
-            text-transform: uppercase; letter-spacing: 2px; width: 90%; transition: 0.3s;
+            color: white; 
+            cursor: pointer; 
+            font-weight: 800; 
+            font-size: 16px;
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+            transition: 0.4s; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            width: 90%;
         }
-        .btn-login:hover { background: linear-gradient(45deg, var(--gold), #f1c40f); color: var(--dark-navy); }
+        .btn-login:hover { 
+            background: linear-gradient(45deg, var(--gold), #f1c40f);
+            color: var(--dark-navy);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
 
         #wheel-page { 
-            display: none; flex-direction: row; align-items: center; 
-            justify-content: center; width: 98%; max-width: 1400px;
-            gap: 20px; padding: 40px 20px; box-sizing: border-box;
+            display: none; 
+            flex-direction: row; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 98%; 
+            max-width: 1400px;
+            gap: 20px;
+            padding: 40px 20px;
         }
         
-        #award-box, #leaderboard {
-            width: 340px; height: 550px;
+        /* SHINING BORDER ANIMATION - CAHAYA BELAKANG PROFILE */
+        #award-box {
+            position: relative;
+            width: 340px;
+            height: 550px;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-            padding: 20px; display: flex; flex-direction: column; 
-            box-sizing: border-box; position: relative; overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         #award-box::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
             background: conic-gradient(transparent, var(--gold), transparent 30%);
-            animation: rotateShine 4s linear infinite; z-index: 1;
+            animation: rotateShine 4s linear infinite;
+            z-index: 1;
         }
-        #award-box::after { content: ''; position: absolute; inset: 4px; background: white; border-radius: 16px; z-index: 2; }
-        @keyframes rotateShine { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        #award-box::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            background: white;
+            border-radius: 16px;
+            z-index: 2;
+        }
+
+        @keyframes rotateShine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         #award-box > * { position: relative; z-index: 5; }
 
         .box-title {
             margin: 0 0 15px 0; color: var(--dark-navy); text-align: center;
             border-bottom: 2px solid var(--gold); padding-bottom: 10px;
-            font-size: 18px; font-weight: 800;
+            font-size: 18px; letter-spacing: 1px; font-weight: 800;
         }
 
-        .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 450px; }
+        .shimmer-name {
+            margin: 10px 0 5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 18px;
+            color: var(--dark-navy);
+            background: linear-gradient(to right, var(--dark-navy) 20%, var(--gold) 40%, var(--gold) 60%, var(--dark-navy) 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shineName 3s linear infinite;
+        }
+
+        @keyframes shineName { to { background-position: 200% center; } }
+
+        #award-display { flex: 1; display: flex; align-items: center; justify-content: center; }
+        .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; width: 100%; }
+        
+        .award-photo {
+            width: 220px; height: 220px; 
+            margin: 5px auto 10px;
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .wreath-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .photo-crop-container {
+            width: 132px; height: 132px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            background: #fff;
+            margin-top: -6px; 
+        }
+
+        .award-photo img.staff-img {
+            position: absolute !important;
+            max-width: none !important;
+            width: auto !important;
+            height: auto !important;
+            display: block;
+            top: 0; left: 0;
+        }
+
+        .medal-overlay {
+            position: absolute;
+            bottom: 20px; right: 20px;
+            width: 65px; height: auto;
+            z-index: 10;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
+        }
+
+        .staff-details {
+            text-align: left; background: #f8f9fa;
+            padding: 12px; border-radius: 12px;
+            border-left: 4px solid var(--gold);
+            margin-top: 5px;
+        }
+        .staff-details div { font-size: 13px; margin-bottom: 4px; color: #444; }
+
+        .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
-        
-        #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; }
+        #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
         .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid #ff4757; z-index: 10; }
-        
-        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; display: inline-flex; align-items: center; gap: 8px; }
-        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; width: 70px; outline: none; border-right: 2px solid #eee; }
-        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; }
+        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; gap: 8px; width: auto; max-width: 250px; }
+        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; padding-right: 10px; }
+        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; white-space: nowrap; }
+
+        #leaderboard {
+            width: 340px; height: 550px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px; border: 2px solid var(--gold);
+            padding: 20px; display: flex; flex-direction: column; box-sizing: border-box;
+        }
 
         #winner-list { flex: 1; overflow-y: auto; margin-top: 5px; font-size: 13px; }
         .winner-item { padding: 8px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
@@ -126,31 +254,16 @@
             width: 100%; background: rgba(10, 15, 60, 0.95); color: white; 
             padding: 15px 60px; display: flex; justify-content: space-between; 
             align-items: center; backdrop-filter: blur(10px); box-sizing: border-box; 
+            margin-top: auto;
         }
-        .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; }
+        .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; margin-right: 20px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
+        
         .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
         .social-icons { display: flex; gap: 15px; margin-bottom: 5px; }
         .social-icons a { color: #fff; font-size: 20px; transition: 0.3s; opacity: 0.8; }
         .social-icons a:hover { color: var(--gold); opacity: 1; transform: translateY(-3px); }
 
-        /* --- RESPONSIVE MOBILE VIEW --- */
-        @media screen and (max-width: 900px) {
-            body { overflow-y: auto; }
-            #wheel-page { flex-direction: column; padding: 20px 10px; gap: 40px; }
-            .wheel-container-main { min-width: unset; width: 100%; }
-            #canvasContainer { transform: scale(0.7); margin: -60px 0; }
-            #award-box, #leaderboard { width: 95%; height: auto; min-height: 500px; }
-            footer { flex-direction: column; text-align: center; padding: 20px; gap: 20px; }
-            .footer-logo-img { transform: scale(1); margin-right: 0; }
-            .footer-right { align-items: center; }
-        }
-
-        .shimmer-name { font-weight: 800; text-transform: uppercase; font-size: 18px; text-align:center; color: var(--dark-navy); }
-        .staff-details { text-align: left; background: #f8f9fa; padding: 12px; border-radius: 12px; border-left: 4px solid var(--gold); margin-top: 5px; }
-        .award-photo { width: 220px; height: 220px; margin: 5px auto 10px; position: relative; display: flex; align-items: center; justify-content: center; }
-        .photo-crop-container { width: 132px; height: 132px; border-radius: 50%; overflow: hidden; position: relative; z-index: 1; background: #fff; margin-top: -6px; }
-        .wreath-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
-        .medal-overlay { position: absolute; bottom: 20px; right: 20px; width: 65px; z-index: 10; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -169,7 +282,7 @@
 
     <div id="wheel-page">
         <div id="award-box">
-            <h3 class="box-title">🏅LONG SERVICE AWARD 2026🏅</h3>
+            <h3 class="box-title">🏅LONG SERVICE AWARD RECIPIENT 2026🏅</h3>
             <h3 class="box-title">🎗️STAFF PROFILE🎗️</h3>
             <div id="award-display"></div>
         </div>
@@ -212,7 +325,7 @@
 </footer>
 
 <script>
-// Firebase & Logic (Kekal)
+// Bahagian Database dan Firebase kekal sama
 const firebaseConfig = {
     apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
     authDomain: "lucky-draw-66c24.firebaseapp.com",
@@ -253,7 +366,9 @@ const staffDatabase = {
     "206843": {name: "SHARON ANAK SAMAT",  years: "10 YEARS", photo: "Sharon anak samat.jpeg", outlet: "DC ", position: "Warehouse Assistant", dateJoin: "07/10/2015" },
     "206960": {name: "BASILIO APAU ANAK GREGORY",  years: "10 YEARS", photo: "BASILIO APAU ANAK GREGORY.jpg", outlet: "10th Mile ", position: "Senior Cashier", dateJoin: "21/12/2015" },
     "210913": {name: "NOEL ETHAN",  years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ ", position: "Sukat Office", dateJoin: "01/12/1957" },
+      
 };
+
 
 const prizeImages = { 
     "Consolation Prize": "cawan.png",
@@ -267,6 +382,8 @@ let theWheel, availablePrizes = [];
 function applySmartCrop(img) {
     const targetSize = 132;
     img.onload = function() {
+        img.style.removeProperty('width');
+        img.style.removeProperty('height');
         smartcrop.crop(img, { width: targetSize, height: targetSize }).then(function(result) {
             const crop = result.topCrop;
             const scale = targetSize / crop.width;
@@ -342,8 +459,6 @@ async function loadPrizes() {
             canvasId: 'wheelCanvas', numSegments: segments.length, segments: segments,
             animation: { 'type': 'spinToStop', 'duration': 10, 'spins': 15, 'callbackFinished': showResult }
         });
-        theWheel.canvas.style.maxWidth = '100%';
-        theWheel.canvas.style.height = 'auto';
         theWheel.draw();
         listenToLeaderboard();
         return true;
@@ -355,7 +470,14 @@ function listenToLeaderboard() {
         const listDiv = document.getElementById("winner-list");
         listDiv.innerHTML = "";
         let winners = snapshot.docs.map(doc => doc.data());
-        winners.sort((a, b) => b.timestamp - a.timestamp);
+        winners.sort((a, b) => {
+            const getRank = (p) => {
+                if (p === "Consolation Prize") return 999;
+                const m = p.match(/\d+/);
+                return m ? parseInt(m[0]) : 998;
+            };
+            return getRank(a.prize) - getRank(b.prize);
+        });
         winners.forEach((data) => {
             const item = document.createElement("div");
             item.className = "winner-item";
@@ -367,7 +489,7 @@ function listenToLeaderboard() {
 }
 
 function spin() {
-    if (!availablePrizes.length || document.getElementById("spinBtn").disabled) return;
+    if (!availablePrizes.length) return;
     window.chosenPrize = availablePrizes[Math.floor(Math.random() * availablePrizes.length)];
     let stopIndex = 1;
     theWheel.segments.forEach((s, i) => { if (s && s.text === window.chosenPrize) stopIndex = i; });
@@ -381,17 +503,15 @@ async function showResult() {
     const code = document.getElementById("code").value;
     const docRef = db.collection("users").doc(code);
     const prizeImgUrl = prizeImages[prizeText] || "";
-    
     if(prizeText !== "Consolation Prize") {
+        new Audio('win.mp3').play().catch(() => {});
         await db.collection("prizes_stock").doc(prizeText).update({ stock: firebase.firestore.FieldValue.increment(-1) });
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    }
-    
+    } else { new Audio('lose.mp3').play().catch(() => {}); }
     await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-    
     Swal.fire({
         title: prizeText === "Consolation Prize" ? 'TRY AGAIN!' : '🎉 CONGRATS! 🎉',
-        html: `<div style="text-align: center;"><img src="${prizeImgUrl}" style="width: 200px; height: 200px; object-fit: contain; margin-bottom: 15px;"><br><b style="font-size: 20px;">You won ${prizeText}</b></div>`,
+        html: `<div style="text-align: center;"><img src="${prizeImgUrl}" style="width: 250px; height: 250px; object-fit: contain; margin-bottom: 15px;"><br><b style="font-size: 20px;">You won ${prizeText}</b></div>`,
         confirmButtonColor: '#1a237e'
     }).then(() => {
         document.getElementById("spinBtn").innerText = "FINISHED";
