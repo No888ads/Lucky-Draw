@@ -3,7 +3,6 @@
 <head>
     <title> Lucky Draw </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    
     <link rel="icon" type="image/png" href="HL_Transparent.png?v=1">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
@@ -50,7 +49,6 @@
             height: auto; 
             margin-bottom: 20px; 
             filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); 
-            transition: 0.3s;
         }
 
         .card { 
@@ -65,72 +63,43 @@
             width: 380px; 
             max-width: 85%;
             border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.3s ease;
         }
 
         #staffName {
-            padding: 15px; 
-            border-radius: 12px; 
-            border: none;
-            background: rgba(255, 255, 255, 0.9); 
-            font-size: 16px; 
-            width: 85%;
-            margin-bottom: 25px; 
-            text-align: center; 
-            font-weight: 600;
-            color: var(--dark-navy); 
-            outline: none;
+            padding: 15px; border-radius: 12px; border: none;
+            background: rgba(255, 255, 255, 0.9); font-size: 16px; 
+            width: 85%; margin-bottom: 25px; text-align: center; 
+            font-weight: 600; color: var(--dark-navy); outline: none;
         }
 
         .btn-login {
-            padding: 15px 40px; 
-            border-radius: 50px; 
-            border: none;
+            padding: 15px 40px; border-radius: 50px; border: none;
             background: linear-gradient(45deg, var(--dark-navy), var(--royal-blue));
-            color: white; 
-            cursor: pointer; 
-            font-weight: 800; 
-            font-size: 16px;
-            text-transform: uppercase; 
-            width: 90%;
+            color: white; cursor: pointer; font-weight: 800; font-size: 16px;
+            text-transform: uppercase; letter-spacing: 2px; width: 90%; transition: 0.3s;
         }
+        .btn-login:hover { background: linear-gradient(45deg, var(--gold), #f1c40f); color: var(--dark-navy); }
 
         #wheel-page { 
-            display: none; 
-            flex-direction: row; 
-            align-items: center; 
-            justify-content: center; 
-            width: 98%; 
-            max-width: 1400px;
-            gap: 20px;
-            padding: 40px 20px;
-            box-sizing: border-box;
+            display: none; flex-direction: row; align-items: center; 
+            justify-content: center; width: 98%; max-width: 1400px;
+            gap: 20px; padding: 40px 20px; box-sizing: border-box;
         }
         
         #award-box, #leaderboard {
-            width: 340px; 
-            height: 550px;
+            width: 340px; height: 550px;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-            position: relative;
+            border-radius: 20px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            padding: 20px; display: flex; flex-direction: column; 
+            box-sizing: border-box; position: relative; overflow: hidden;
         }
 
-        #award-box { overflow: hidden; }
-
-        /* Animasi Shine */
         #award-box::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: conic-gradient(transparent, var(--gold), transparent 30%);
             animation: rotateShine 4s linear infinite; z-index: 1;
         }
-        #award-box::after {
-            content: ''; position: absolute; inset: 4px; background: white; border-radius: 16px; z-index: 2;
-        }
+        #award-box::after { content: ''; position: absolute; inset: 4px; background: white; border-radius: 16px; z-index: 2; }
         @keyframes rotateShine { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         #award-box > * { position: relative; z-index: 5; }
 
@@ -140,24 +109,16 @@
             font-size: 18px; font-weight: 800;
         }
 
-        #award-display { flex: 1; display: flex; align-items: center; justify-content: center; }
-        
-        .award-photo {
-            width: 220px; height: 220px; margin: 5px auto 10px;
-            position: relative; display: flex; align-items: center; justify-content: center;
-        }
-
-        .photo-crop-container {
-            width: 132px; height: 132px; border-radius: 50%; overflow: hidden;
-            position: relative; z-index: 1; background: #fff; margin-top: -6px; 
-        }
-
         .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 450px; }
-        .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-align: center; }
+        .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
         
         #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; }
         .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid #ff4757; z-index: 10; }
         
+        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; display: inline-flex; align-items: center; gap: 8px; }
+        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; width: 70px; outline: none; border-right: 2px solid #eee; }
+        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; }
+
         #winner-list { flex: 1; overflow-y: auto; margin-top: 5px; font-size: 13px; }
         .winner-item { padding: 8px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
 
@@ -166,15 +127,16 @@
             padding: 15px 60px; display: flex; justify-content: space-between; 
             align-items: center; backdrop-filter: blur(10px); box-sizing: border-box; 
         }
+        .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; }
+        .footer-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        .social-icons { display: flex; gap: 15px; margin-bottom: 5px; }
+        .social-icons a { color: #fff; font-size: 20px; transition: 0.3s; opacity: 0.8; }
+        .social-icons a:hover { color: var(--gold); opacity: 1; transform: translateY(-3px); }
 
         /* --- RESPONSIVE MOBILE VIEW --- */
         @media screen and (max-width: 900px) {
             body { overflow-y: auto; }
-            #wheel-page { 
-                flex-direction: column; 
-                padding: 20px 10px; 
-                gap: 40px;
-            }
+            #wheel-page { flex-direction: column; padding: 20px 10px; gap: 40px; }
             .wheel-container-main { min-width: unset; width: 100%; }
             #canvasContainer { transform: scale(0.7); margin: -60px 0; }
             #award-box, #leaderboard { width: 95%; height: auto; min-height: 500px; }
@@ -183,15 +145,12 @@
             .footer-right { align-items: center; }
         }
 
-        /* CSS asal yang lain kekal... */
         .shimmer-name { font-weight: 800; text-transform: uppercase; font-size: 18px; text-align:center; color: var(--dark-navy); }
         .staff-details { text-align: left; background: #f8f9fa; padding: 12px; border-radius: 12px; border-left: 4px solid var(--gold); margin-top: 5px; }
-        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; display: inline-flex; align-items: center; gap: 8px; }
-        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; width: 70px; border-right: 2px solid #eee; }
-        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; }
+        .award-photo { width: 220px; height: 220px; margin: 5px auto 10px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .photo-crop-container { width: 132px; height: 132px; border-radius: 50%; overflow: hidden; position: relative; z-index: 1; background: #fff; margin-top: -6px; }
         .wreath-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
         .medal-overlay { position: absolute; bottom: 20px; right: 20px; width: 65px; z-index: 10; }
-        .footer-logo-img { height: 65px; width: auto; }
     </style>
 </head>
 <body>
@@ -243,16 +202,17 @@
     </div>
     <div class="footer-right">
         <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.facebook.com/HnLsupermarket" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/hnl_retail" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@hnl_retail" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.hlgroup.com.my/" target="_blank"><i class="fa fa-globe"></i></a>
         </div>
-        <div style="opacity: 0.8; font-size: 14px;">Made with ❤️ for H & L Staff</div>
+        <div style="opacity: 0.8; font-size: 14px;">Made with ❤️ from H & L</div>
     </div>
 </footer>
 
 <script>
-// Firebase & Staff DB (Kekal Seperti Asal)
+// Firebase & Logic (Kekal)
 const firebaseConfig = {
     apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
     authDomain: "lucky-draw-66c24.firebaseapp.com",
@@ -304,12 +264,9 @@ const prizeImages = {
 
 let theWheel, availablePrizes = [];
 
-// Fungsi SmartCrop
 function applySmartCrop(img) {
     const targetSize = 132;
     img.onload = function() {
-        img.style.removeProperty('width');
-        img.style.removeProperty('height');
         smartcrop.crop(img, { width: targetSize, height: targetSize }).then(function(result) {
             const crop = result.topCrop;
             const scale = targetSize / crop.width;
@@ -385,7 +342,6 @@ async function loadPrizes() {
             canvasId: 'wheelCanvas', numSegments: segments.length, segments: segments,
             animation: { 'type': 'spinToStop', 'duration': 10, 'spins': 15, 'callbackFinished': showResult }
         });
-        // Tambahan: Pastikan canvas fit skrin
         theWheel.canvas.style.maxWidth = '100%';
         theWheel.canvas.style.height = 'auto';
         theWheel.draw();
@@ -399,7 +355,7 @@ function listenToLeaderboard() {
         const listDiv = document.getElementById("winner-list");
         listDiv.innerHTML = "";
         let winners = snapshot.docs.map(doc => doc.data());
-        winners.sort((a, b) => b.timestamp - a.timestamp); // Terbaru di atas
+        winners.sort((a, b) => b.timestamp - a.timestamp);
         winners.forEach((data) => {
             const item = document.createElement("div");
             item.className = "winner-item";
