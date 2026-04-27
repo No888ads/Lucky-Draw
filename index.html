@@ -57,8 +57,9 @@
         }
         
         /* SHINING BORDER ANIMATION FOR PROFILE BOX */
+/* --- CSS DIPERBAIKI UNTUK CAHAYA BELAKANG PROFILE (SHIMMER) --- */
         #award-box {
-            position: relative;
+            position: relative; /* Penting untuk pseudo-element */
             width: 340px;
             height: 550px;
             background: rgba(255, 255, 255, 0.95);
@@ -68,68 +69,67 @@
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
-            overflow: hidden;
+            overflow: hidden; /* Potong shining supaya tak keluar kotak */
         }
 
+        /* Pseudo-element ::before untuk lapisan cahaya bergerak */
         #award-box::before {
             content: '';
             position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: conic-gradient(transparent, var(--gold), transparent 30%);
-            animation: rotateShine 4s linear infinite;
-            z-index: 1;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent, 
+                var(--gold), 
+                transparent 30%
+            );
+            animation: rotateShine 4s linear infinite; /* Animasi pusing */
+            z-index: 1; /* Di bawah kandungan kotak */
         }
 
+        /* Pseudo-element ::after untuk menutupi bahagian tengah garisan bersinar */
         #award-box::after {
             content: '';
             position: absolute;
-            inset: 4px;
-            background: white;
-            border-radius: 16px;
-            z-index: 2;
+            inset: 3px; /* Ketebalan garisan bersinar */
+            background: white; /* Warna background kotak */
+            border-radius: 17px;
+            z-index: 2; /* Di atas ::before, di bawah kandungan */
         }
 
+        /* Keyframes untuk animasi pusing garisan bersinar */
         @keyframes rotateShine {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        #award-box > * { position: relative; z-index: 5; }
+        /* Pastikan semua kandungan kotak berada di atas pseudo-elements */
+        #award-box > * {
+            position: relative;
+            z-index: 5;
+        }
 
+        /* --- STYLING ASAL LAIN-LAIN (TIDAK BERUBAH) --- */
         .box-title {
             margin: 0 0 15px 0; color: var(--dark-navy); text-align: center;
             border-bottom: 2px solid var(--gold); padding-bottom: 10px;
             font-size: 18px; letter-spacing: 1px; font-weight: 800;
         }
-
-        /* CAHAYA BERGERAK PADA NAMA */
-        .shimmer-name {
-            margin: 10px 0 5px;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 18px;
-            color: var(--dark-navy);
-            background: linear-gradient(to right, var(--dark-navy) 20%, var(--gold) 40%, var(--gold) 60%, var(--dark-navy) 80%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shineName 3s linear infinite;
-        }
-
-        @keyframes shineName {
-            to { background-position: 200% center; }
-        }
-
+        
         #award-display { flex: 1; display: flex; align-items: center; justify-content: center; }
         .award-item { text-align: center; animation: fadeIn 0.8s ease-in-out; width: 100%; }
         
         .award-photo {
-            width: 220px; height: 220px; 
+            width: 220px;
+            height: 220px; 
             margin: 5px auto 10px;
             position: relative;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
         }
 
         .wreath-overlay {
@@ -141,7 +141,8 @@
         }
 
         .photo-crop-container {
-            width: 132px; height: 132px;
+            width: 132px; 
+            height: 132px;
             border-radius: 50%;
             overflow: hidden;
             position: relative;
@@ -162,19 +163,21 @@
         .medal-overlay {
             position: absolute;
             bottom: 20px; right: 20px;
-            width: 65px; height: auto;
+            width: 60px; height: auto;
             z-index: 10;
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
         }
 
         .staff-details {
-            text-align: left; background: #f8f9fa;
-            padding: 12px; border-radius: 12px;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 12px;
             border-left: 4px solid var(--gold);
             margin-top: 5px;
         }
         .staff-details div { font-size: 13px; margin-bottom: 4px; color: #444; }
-
+        .staff-details b { color: var(--dark-navy); }
         .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
         #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
