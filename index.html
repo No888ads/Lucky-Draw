@@ -15,6 +15,18 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <style>
+        .company-logo { 
+    width: 120px; /* Kecilkan dari 180px ke 120px */
+    height: auto; 
+    margin-bottom: 15px; 
+    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.3)); 
+    transition: transform 0.3s ease;
+}
+
+/* Tambahan: Logo akan membesar sedikit bila mouse lalu (hover) */
+.company-logo:hover {
+    transform: scale(1.05);
+}
         :root {
             --royal-blue: #4169E1;
             --dark-navy: #1a237e;
@@ -228,7 +240,7 @@
     <div id="home-page">
         <img src="H&L transparent.png" alt="Company Logo" class="company-logo">
         <div class="card">
-            <h2 style="margin: 0 0 10px 0;">🎡 Lucky Draw</h2>
+            <h2 style="margin: 0;">🎡 Lucky Draw</h2>
             <p style="font-size: 14px; margin-bottom: 20px;">Staff Portal Access</p>
             <input type="text" id="staffName" placeholder="ENTER STAFF ID" maxlength="6">
             <br>
