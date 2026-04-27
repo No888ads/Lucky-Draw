@@ -86,6 +86,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background: transparent;
         }
 
         .wreath-overlay {
@@ -125,27 +126,30 @@
         }
 
         .staff-details {
-            text-align: left; background: #f8f9fa;
-            padding: 12px; border-radius: 12px;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 12px;
             border-left: 4px solid var(--gold);
             margin-top: 5px;
         }
         .staff-details div { font-size: 13px; margin-bottom: 4px; color: #444; }
+        .staff-details b { color: var(--dark-navy); }
 
         .wheel-container-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .wheel-title { margin-bottom: 25px; color: white; font-size: 28px; font-weight: 800; text-shadow: 2px 3px 6px rgba(0,0,0,0.3); }
         #canvasContainer { position: relative; background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
         .pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid #ff4757; z-index: 10; }
-        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; gap: 8px; }
-        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; }
-        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; }
-        
+        .control-box { margin-top: 25px; background: white; padding: 5px 10px; border-radius: 50px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; max-width: 250px; }
+        #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; padding-right: 10px; }
+        .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; white-space: nowrap; }
+
         #winner-list { flex: 1; overflow-y: auto; margin-top: 5px; font-size: 13px; }
         .winner-item { padding: 8px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
         .winner-prize { color: var(--royal-blue); font-weight: 700; }
-        
-        footer { width: 100%; background: rgba(10, 15, 60, 0.95); color: white; padding: 15px 60px; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
-        .footer-logo-img { height: 65px; width: auto; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
+
+        footer { width: 100%; background: rgba(10, 15, 60, 0.95); color: white; padding: 15px 60px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); box-sizing: border-box; z-index: 1000; margin-top: auto; }
+        .footer-logo-img { height: 65px; width: auto; transform: scale(1.4); transform-origin: left bottom; margin-right: 20px; filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2)); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -196,12 +200,12 @@
         <div class="footer-copyright">© 2026 H & L Retail Sdn. Bhd.</div>
     </div>
     <div class="footer-right">
-        <div style="opacity: 0.8; font-size: 20px;">Made with ❤️ from H & L</div>
+        <div style="opacity: 0.8; font-size: 13px;">Made with ❤️ from H & L</div>
     </div>
 </footer>
 
 <script>
-// CONFIGURATION
+// CONFIG
 const firebaseConfig = {
     apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
     authDomain: "lucky-draw-66c24.firebaseapp.com",
@@ -211,10 +215,7 @@ const firebaseConfig = {
     appId: "1:74967658228:web:759c4e5419362838cff8a1"
 };
 
-// INITIALIZE FIREBASE
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const db = firebase.firestore();
 
 const staffDatabase = {
@@ -247,6 +248,13 @@ const staffDatabase = {
     "NOEL ETHAN": { years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ ", position: "Sukat Office", dateJoin: "01/12/1957" }
 };
 
+const prizeImages = { 
+    "Consolation Prize": "https://cdn-icons-png.flaticon.com/512/1791/1791385.png",
+    "Prize 1": "1.png", "Prize 2": "2.png", "Prize 3": "3.png", "Prize 4": "4.png", "Prize 5": "5.png",
+    "Prize 6": "6.png", "Prize 7": "7.png", "Prize 8": "8.png", "Prize 9": "9.png", "Prize 10": "10.png",
+    "Prize 11": "11.png", "Prize 12": "12.png", "Prize 13": "13.png", "Prize 14": "14.png", "Prize 15": "15.png"
+};
+
 let theWheel, availablePrizes = [];
 
 function applySmartCrop(img) {
@@ -269,27 +277,13 @@ function applySmartCrop(img) {
 async function generateCode() {
     const nameInput = document.getElementById("staffName").value.trim().toUpperCase();
     if (!staffDatabase[nameInput]) return Swal.fire("Denied", "Name not found.", "error");
-
     try {
         Swal.showLoading();
-        
-        // 1. Check Connection & Registration
         const q = await db.collection("users").where("name", "==", nameInput).get();
-        if (!q.empty) {
-            Swal.close();
-            return Swal.fire("Error", "Already registered!", "error");
-        }
-        
-        // 2. Load Prizes from Firestore
-        const prizesLoaded = await loadPrizes();
-        if (!prizesLoaded) {
-            Swal.close();
-            return Swal.fire("Error", "Prizes stock empty or connection lost.", "error");
-        }
-
+        if (!q.empty) { Swal.close(); return Swal.fire("Error", "Already registered!", "error"); }
+        const success = await loadPrizes();
+        if (!success) { Swal.close(); return Swal.fire("Error", "Prize stock empty.", "error"); }
         const staff = staffDatabase[nameInput];
-        
-        // 3. Update Profile View
         document.getElementById('award-display').innerHTML = `
             <div class="award-item">
                 <div class="award-photo">
@@ -307,28 +301,14 @@ async function generateCode() {
                     <div><b>Service Period:</b> ${staff.years}</div>
                 </div>
             </div>`;
-
         applySmartCrop(document.getElementById('staffImg'));
-
-        // 4. Register Session
         const newCode = "LCK" + Math.floor(1000 + Math.random() * 9000);
-        await db.collection("users").doc(newCode).set({ 
-            name: nameInput, 
-            used: false, 
-            prize: "", 
-            timestamp: firebase.firestore.FieldValue.serverTimestamp() 
-        });
-        
+        await db.collection("users").doc(newCode).set({ name: nameInput, used: false, prize: "", timestamp: firebase.firestore.FieldValue.serverTimestamp() });
         document.getElementById("code").value = newCode;
         document.getElementById("home-page").style.display = "none";
         document.getElementById("wheel-page").style.display = "flex";
-        
         Swal.close();
-
-    } catch (e) { 
-        console.error(e);
-        Swal.fire("System Error", e.message, "error"); 
-    }
+    } catch (e) { Swal.fire("Error", "Check Connection.", "error"); }
 }
 
 async function loadPrizes() {
@@ -336,14 +316,11 @@ async function loadPrizes() {
         const snapshot = await db.collection("prizes_stock").where("stock", ">", 0).get();
         availablePrizes = [];
         snapshot.forEach(doc => availablePrizes.push(doc.id));
-        
         if (availablePrizes.length === 0) return false;
-        
         let segments = availablePrizes.map((p, i) => {
             const colors = ['#1a237e', '#D4AF37', '#283593', '#C5A028', '#3949ab'];
             return { 'fillStyle': colors[i % colors.length], 'text': p, 'textFillStyle': 'white', 'fontSize': 12 };
         });
-
         theWheel = new Winwheel({
             canvasId: 'wheelCanvas', numSegments: segments.length, segments: segments,
             animation: { 'type': 'spinToStop', 'duration': 10, 'spins': 15, 'callbackFinished': showResult }
@@ -351,10 +328,7 @@ async function loadPrizes() {
         theWheel.draw();
         listenToLeaderboard();
         return true;
-    } catch(err) {
-        console.error(err);
-        return false;
-    }
+    } catch(e) { return false; }
 }
 
 function listenToLeaderboard() {
@@ -363,12 +337,23 @@ function listenToLeaderboard() {
         listDiv.innerHTML = "";
         let winners = [];
         snapshot.forEach((doc) => winners.push(doc.data()));
-        winners.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+        
+        // SUSUNAN: Prize 1 -> Prize 15 -> Consolation
+        winners.sort((a, b) => {
+            const getRank = (prize) => {
+                if (prize === "Consolation Prize") return 999;
+                const match = prize.match(/\d+/);
+                return match ? parseInt(match[0]) : 998;
+            };
+            return getRank(a.prize) - getRank(b.prize);
+        });
+
         winners.forEach((data) => {
-            if (data.prize && data.prize !== "" && data.prize !== "Consolation Prize") {
+            if (data.prize) {
                 const item = document.createElement("div");
                 item.className = "winner-item";
-                item.innerHTML = `<strong>${data.name}</strong> <span class="winner-prize">${data.prize}</span>`;
+                const prizeStyle = data.prize === "Consolation Prize" ? "color: #94a3b8; font-weight: normal;" : "color: var(--royal-blue); font-weight: 700;";
+                item.innerHTML = `<strong>${data.name}</strong> <span style="${prizeStyle}">${data.prize}</span>`;
                 listDiv.appendChild(item);
             }
         });
@@ -389,28 +374,30 @@ async function showResult() {
     let prizeText = theWheel.getIndicatedSegment().text;
     const code = document.getElementById("code").value;
     const docRef = db.collection("users").doc(code);
-    const winSound = new Audio('win.mp3'), loseSound = new Audio('lose.mp3');
+    const prizeImgUrl = prizeImages[prizeText] || "https://cdn-icons-png.flaticon.com/512/679/679821.png";
 
     if(prizeText !== "Consolation Prize") {
-        winSound.play().catch(() => {});
+        new Audio('win.mp3').play().catch(() => {});
         await db.collection("prizes_stock").doc(prizeText).update({ stock: firebase.firestore.FieldValue.increment(-1) });
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     } else { 
-        loseSound.play().catch(() => {}); 
+        new Audio('lose.mp3').play().catch(() => {}); 
     }
 
-    await docRef.update({ 
-        used: true, 
-        prize: prizeText, 
-        timestamp: firebase.firestore.FieldValue.serverTimestamp() 
-    });
+    await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
 
     Swal.fire({
-        title: prizeText === "Consolation Prize" ? 'OH NO!' : '🎉 CONGRATS! 🎉',
-        html: `<b style="font-size: 20px;">You won ${prizeText}</b>`,
+        title: prizeText === "Consolation Prize" ? 'TRY AGAIN!' : '🎉 CONGRATS! 🎉',
+        html: `
+            <div style="text-align: center;">
+                <img src="${prizeImgUrl}" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: 15px;">
+                <br>
+                <b style="font-size: 20px;">You won ${prizeText}</b>
+            </div>`,
         confirmButtonColor: '#1a237e'
     }).then(() => {
         document.getElementById("spinBtn").innerText = "FINISHED";
+        document.getElementById("spinBtn").style.background = "#94a3b8";
     });
 }
 </script>
