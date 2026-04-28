@@ -537,7 +537,7 @@ async function showResult() {
     } else { new Audio('lose.mp3').play().catch(() => {}); }
     await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
     Swal.fire({
-        title: prizeText === "Consolation Prize" ? 'TRY AGAIN!' : '🎉 CONGRATS! 🎉',
+        title: prizeText === "Consolation Prize" ? 'Nice Try' : '🎉 CONGRATS! 🎉',
         html: `<div style="text-align: center;"><img src="${prizeImgUrl}" style="width: 250px; height: 250px; max-width: 100%; object-fit: contain; margin-bottom: 15px;"><br><b style="font-size: 20px;">You won ${prizeText}</b></div>`,
         confirmButtonColor: '#1a237e'
     }).then(() => {
