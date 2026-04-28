@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Lucky Draw </title>
     <link rel="icon" type="image/png" href="HL_Transparent.png?v=1">
     
@@ -51,7 +53,6 @@
             transition: 0.3s;
         }
 
-        /* --- REKA BENTUK KOTAK LOGIN GLASSMORPHISM --- */
         .card { 
             background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(15px);
@@ -62,6 +63,7 @@
             color: white; 
             text-align: center; 
             width: 380px; 
+            max-width: 90%;
             border: 1px solid rgba(255,255,255,0.2);
             transition: transform 0.3s ease;
         }
@@ -98,26 +100,20 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             width: 90%;
         }
-        .btn-login:hover { 
-            background: linear-gradient(45deg, var(--gold), #f1c40f);
-            color: var(--dark-navy);
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-        }
 
         #wheel-page { 
             display: none; 
             flex-direction: row; 
-            align-items: center; 
-            justify-content: space-between; 
+            align-items: flex-start; 
+            justify-content: center; 
             width: 98%; 
             max-width: 1400px;
             gap: 20px;
             padding: 40px 20px;
+            box-sizing: border-box;
         }
         
-        /* SHINING BORDER ANIMATION - CAHAYA BELAKANG PROFILE */
-        #award-box {
+        #award-box, #leaderboard {
             position: relative;
             width: 340px;
             height: 550px;
@@ -240,13 +236,7 @@
         #code { text-align: center; font-size: 14px; font-weight: 800; color: var(--dark-navy); border: none; background: transparent; width: 70px; outline: none; border-right: 2px solid #eee; padding-right: 10px; }
         .btn-main { padding: 10px 15px; border-radius: 30px; border: none; background: var(--dark-navy); color: white; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.3s; white-space: nowrap; }
 
-        #leaderboard {
-            width: 340px; height: 550px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px; border: 2px solid var(--gold);
-            padding: 20px; display: flex; flex-direction: column; box-sizing: border-box;
-        }
-
+        #leaderboard { border: 2px solid var(--gold); }
         #winner-list { flex: 1; overflow-y: auto; margin-top: 5px; font-size: 13px; }
         .winner-item { padding: 8px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
 
@@ -262,6 +252,46 @@
         .social-icons { display: flex; gap: 15px; margin-bottom: 5px; }
         .social-icons a { color: #fff; font-size: 20px; transition: 0.3s; opacity: 0.8; }
         .social-icons a:hover { color: var(--gold); opacity: 1; transform: translateY(-3px); }
+
+        /* --- MOBILE RESPONSIVE UPDATES --- */
+        @media screen and (max-width: 1024px) {
+            #wheel-page {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+                padding: 20px 10px;
+            }
+
+            .wheel-container-main { order: -1; width: 100%; } /* Wheel on top for mobile */
+
+            #award-box, #leaderboard {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+                min-height: 500px;
+            }
+
+            #canvasContainer {
+                transform: scale(0.85); /* Slightly smaller wheel to fit screens */
+                margin: -20px 0;
+            }
+
+            footer {
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .footer-logo-img { margin-right: 0; transform: scale(1.2); }
+            .footer-right { align-items: center; }
+        }
+
+        @media screen and (max-width: 480px) {
+            #canvasContainer { transform: scale(0.7); margin: -60px 0; }
+            .wheel-title { font-size: 22px; }
+            .card { padding: 30px 15px; }
+        }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -325,7 +355,6 @@
 </footer>
 
 <script>
-// Bahagian Database dan Firebase kekal sama
 const firebaseConfig = {
     apiKey: "AIzaSyCSwkGsdm8D5I_RkgEN61FrZn88zROpbH4",
     authDomain: "lucky-draw-66c24.firebaseapp.com",
@@ -365,10 +394,8 @@ const staffDatabase = {
     "206818": {name: "STEPHANIE NADIA ANAK ALAN",  years: "10 YEARS", photo: "Stephanie nadia.jpeg", outlet: "17th Mile ", position: "Receiving Clerk", dateJoin: "28/09/2015" },
     "206843": {name: "SHARON ANAK SAMAT",  years: "10 YEARS", photo: "Sharon anak samat.jpeg", outlet: "DC ", position: "Warehouse Assistant", dateJoin: "07/10/2015" },
     "206960": {name: "BASILIO APAU ANAK GREGORY",  years: "10 YEARS", photo: "BASILIO APAU ANAK GREGORY.jpg", outlet: "10th Mile ", position: "Senior Cashier", dateJoin: "21/12/2015" },
-    "210913": {name: "NOEL ETHAN",  years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ ", position: "Sukat Office", dateJoin: "01/12/1957" },
-      
+    "210913": {name: "NOEL ETHAN",  years: "69 YEARS", photo: "noel.jpeg", outlet: "HQ ", position: "Sukat Office", dateJoin: "01/12/1957" },      
 };
-
 
 const prizeImages = { 
     "Consolation Prize": "cawan.png",
@@ -511,7 +538,7 @@ async function showResult() {
     await docRef.update({ used: true, prize: prizeText, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
     Swal.fire({
         title: prizeText === "Consolation Prize" ? 'TRY AGAIN!' : '🎉 CONGRATS! 🎉',
-        html: `<div style="text-align: center;"><img src="${prizeImgUrl}" style="width: 250px; height: 250px; object-fit: contain; margin-bottom: 15px;"><br><b style="font-size: 20px;">You won ${prizeText}</b></div>`,
+        html: `<div style="text-align: center;"><img src="${prizeImgUrl}" style="width: 250px; height: 250px; max-width: 100%; object-fit: contain; margin-bottom: 15px;"><br><b style="font-size: 20px;">You won ${prizeText}</b></div>`,
         confirmButtonColor: '#1a237e'
     }).then(() => {
         document.getElementById("spinBtn").innerText = "FINISHED";
