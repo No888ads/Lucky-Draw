@@ -503,20 +503,45 @@ async function generateCode() {
 async function loadPrizes() {
     try {
         const snapshot = await db.collection("prizes_stock").where("stock", ">", 0).get();
-        availablePrizes = snapshot.docs.map(doc => doc.id);
-        if (availablePrizes.length === 0) return false;
+        let prizesRaw = snapshot.docs.map(doc => doc.id);
+        
+        if (prizesRaw.length === 0) return false;
+
+        // TAMBAHAN: Logik untuk menggaul (shuffle) hadiah supaya susunan jadi RANDOM
+        for (let i = prizesRaw.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [prizesRaw[i], prizesRaw[j]] = [prizesRaw[j], prizesRaw[i]];
+        }
+
+        availablePrizes = prizesRaw;
+
         let segments = availablePrizes.map((p, i) => ({ 
+            // Kekalkan warna tema anda (Biru & Emas)
             'fillStyle': i % 2 ? '#1a237e' : '#D4AF37', 
-            'text': p, 'textFillStyle': 'white', 'fontSize': 12 
+            'text': p, 
+            'textFillStyle': 'white', 
+            'fontSize': 12 
         }));
+
         theWheel = new Winwheel({
-            canvasId: 'wheelCanvas', numSegments: segments.length, segments: segments,
-            animation: { 'type': 'spinToStop', 'duration': 10, 'spins': 15, 'callbackFinished': showResult }
+            canvasId: 'wheelCanvas', 
+            numSegments: segments.length, 
+            segments: segments,
+            animation: { 
+                'type': 'spinToStop', 
+                'duration': 10, 
+                'spins': 15, 
+                'callbackFinished': showResult 
+            }
         });
+
         theWheel.draw();
         listenToLeaderboard();
         return true;
-    } catch(e) { return false; }
+    } catch(e) { 
+        console.error(e);
+        return false; 
+    }
 }
 
 function listenToLeaderboard() {
